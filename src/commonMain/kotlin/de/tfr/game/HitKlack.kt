@@ -50,7 +50,7 @@ class HitKlack(val view: View) : ApplicationAdapter() {
         display = Display(Box2D(center, 280f, 90f))
         displayRenderer = DisplayRenderer(display)
         displayRenderer.create(container)
-        controllerRenderer = ControllerRenderer()
+        controllerRenderer = ControllerRenderer(controller)
         controllerRenderer.create(container)
         logo = LogoRenderer(center, gameFieldSize)
         logo.create(container)

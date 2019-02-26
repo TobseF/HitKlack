@@ -39,8 +39,6 @@ class DisplayRenderer(val display: Display) : Loadable {
                 position(display.x - display.width / 2, display.y + 500)
             }
 
-            renderer.text("88:88", font = font)
-
             renderer.timeText("88:88", GREEN_LIGHT2)
 
             text = renderer.timeText(display.getText(), GRAY_DARK)

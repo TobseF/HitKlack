@@ -18,8 +18,6 @@ suspend fun main() = Korge(width = resolution.width, height = resolution.height,
     val minDegrees = (-16).degrees
     val maxDegrees = (+16).degrees
 
-    val texture = resourcesVfs["buttons.png"].readBitmap()
-
     val hitKlack = HitKlack(this).apply {
         create(stage)
     }
