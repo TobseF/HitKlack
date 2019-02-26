@@ -3,11 +3,11 @@ package de.tfr.game.util.extensions
 import com.soywiz.korge.view.Fonts
 import com.soywiz.korge.view.Graphics
 import com.soywiz.korge.view.Text
+import com.soywiz.korge.view.position
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.font.BitmapFont
 import com.soywiz.korim.vector.Context2d
-import com.soywiz.korma.geom.Matrix
 import com.soywiz.korma.geom.vector.VectorPath
 import com.soywiz.korma.geom.vector.circle
 
@@ -30,7 +30,7 @@ fun Graphics.text(text: String,
         textSize: Double,
         color: RGBA = Colors.WHITE): Text {
     return text(text, textSize, font = font, color = color) {
-        setTransform(Matrix.Transform(x, y))
+        position(x, y)
     }
 }
 
