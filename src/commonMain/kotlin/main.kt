@@ -3,29 +3,32 @@ import com.soywiz.korge.Korge
 import com.soywiz.korge.tween.get
 import com.soywiz.korge.tween.tween
 import com.soywiz.korge.view.*
-import com.soywiz.korim.color.Colors
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.async.launchImmediately
 import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korma.geom.degrees
 import com.soywiz.korma.interpolation.Easing
 import de.tfr.game.HitKlack
+import de.tfr.game.ui.DEVICE
+import de.tfr.game.util.Resolution
 
-suspend fun main() = Korge(width = 800, height = 800, bgcolor = Colors.LIGHTGRAY) {
+val resolution = Resolution(width = 1080, height = 1440)
+
+suspend fun main() = Korge(width = resolution.width, height = resolution.height, bgcolor = DEVICE) {
     val minDegrees = (-16).degrees
     val maxDegrees = (+16).degrees
 
     val texture = resourcesVfs["buttons.png"].readBitmap()
 
     val hitKlack = HitKlack(this).apply {
-        create()
+        create(stage)
     }
 
     val image = image(resourcesVfs["korge.png"].readBitmap()) {
         rotation = maxDegrees
         anchor(.5, .5)
         scale(.2)
-        position(720, 70)
+        position(resolution.width - 70, 70)
     }
 
     launchImmediately {

@@ -3,11 +3,10 @@ package de.tfr.game
 
 import com.soywiz.klock.PerformanceCounter
 import com.soywiz.klogger.Logger
+import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.Graphics
 import com.soywiz.korge.view.View
-import com.soywiz.korim.color.RGBA
 import de.tfr.game.lib.actor.Box2D
-import de.tfr.game.lib.actor.Point2D
 import de.tfr.game.libgx.emu.ApplicationAdapter
 import de.tfr.game.libgx.emu.Viewport
 import de.tfr.game.model.GameField
@@ -15,15 +14,11 @@ import de.tfr.game.renderer.ControllerRenderer
 import de.tfr.game.renderer.DisplayRenderer
 import de.tfr.game.renderer.GameFieldRenderer
 import de.tfr.game.renderer.LogoRenderer
-import de.tfr.game.ui.DEVICE
+import resolution
 
 private val log = Logger("HitKlack")
 
 class HitKlack(val view: View) : ApplicationAdapter() {
-
-    data class Resolution(var width: Float, var height: Float) {
-        fun getCenter() = Point2D(width / 2.0, height / 2.0)
-    }
 
     private lateinit var renderer: GameFieldRenderer
     private lateinit var controller: Controller
@@ -34,7 +29,7 @@ class HitKlack(val view: View) : ApplicationAdapter() {
     private lateinit var logo: LogoRenderer
 
     private val gameField = GameField(10)
-    private val resolution = Resolution(800f, 1400f)
+
     val viewport = Viewport
 
     private var time: Double
@@ -43,7 +38,7 @@ class HitKlack(val view: View) : ApplicationAdapter() {
         time = PerformanceCounter.microseconds
     }
 
-    override suspend fun create() {
+    override suspend fun create(container: Container) {
         game = BoxGame(gameField)
 
         val center = resolution.getCenter()
@@ -54,22 +49,20 @@ class HitKlack(val view: View) : ApplicationAdapter() {
         controller.addTouchListener(game)
         display = Display(Box2D(center, 280f, 90f))
         displayRenderer = DisplayRenderer(display)
-        displayRenderer.create()
+        displayRenderer.create(container)
         controllerRenderer = ControllerRenderer()
-        controllerRenderer.create()
+        controllerRenderer.create(container)
         logo = LogoRenderer(center, gameFieldSize)
-        logo.create()
+        logo.create(container)
     }
 
     override suspend fun render(graphics: Graphics) {
         val deltaTime = getDeltaTime()
         log.debug { "time$deltaTime" }
-        clear()
         controllerRenderer.render(controller)
         renderField(graphics)
         game.update(deltaTime)
         displayRenderer.render(graphics)
-        logo.render()
     }
 
     private fun getDeltaTime(): Double {
@@ -85,16 +78,6 @@ class HitKlack(val view: View) : ApplicationAdapter() {
             game.getStones().forEach(renderer::renderStone)
             end()
         }
-    }
-
-    private fun clear() = clear(DEVICE)
-
-    private fun clear(color: RGBA) {
-        //   renderGameBackground()
-    }
-
-    private fun renderGameBackground() {
-        // shapeRenderer.rect(0f, 0f, resolution.width, resolution.height)
     }
 
     override fun resize(width: Int, height: Int) {

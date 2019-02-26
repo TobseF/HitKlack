@@ -1,5 +1,6 @@
 package de.tfr.game.renderer
 
+import com.soywiz.korge.view.Container
 import com.soywiz.korim.bitmap.Bitmap
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
@@ -24,7 +25,7 @@ class ControllerRenderer : Loadable {
 
     }
 
-    override suspend fun create() {
+    override suspend fun create(container: Container) {
         val texture = resourcesVfs["buttons.png"].readBitmap()
 
         buttons = SpriteSheet(texture, width, width, 2, 4)

@@ -1,10 +1,11 @@
 package de.tfr.game.libgx.emu
 
+import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.Graphics
 
 interface ApplicationListener {
     /** Called when the Application is first created.  */
-    suspend fun create()
+    suspend fun create(container: Container)
 
     /** Called when the Application is resized. This can happen at any point during a non-paused state but will never happen
      * before a call to [.create].

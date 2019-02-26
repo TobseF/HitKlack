@@ -1,22 +1,18 @@
 package de.tfr.game.renderer
 
-import com.soywiz.korim.bitmap.Bitmap
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.image
+import com.soywiz.korge.view.position
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
 import de.tfr.game.lib.actor.Point
 import de.tfr.game.lib.engine.Loadable
 
-/**
- * Created by tobse on 24.12.2016.
- */
-class LogoRenderer(point: Point, val gameFieldSize: Double) : Point by point, Loadable {
-    lateinit var logo: Bitmap
+class LogoRenderer(val point: Point, val gameFieldSize: Double) : Point by point, Loadable {
 
-    override suspend fun create() {
-        logo = resourcesVfs["images/hitclack_logo.png"].readBitmap()
-    }
-
-    fun render() {
-        //TODO: logo.draw( x - 200, y + gameFieldSize + 250f)
+    override suspend fun create(container: Container) {
+        container.image(resourcesVfs["images/hitclack_logo.png"].readBitmap()) {
+            position(point.x - width / 2, point.y - gameFieldSize - 390)
+        }
     }
 }
