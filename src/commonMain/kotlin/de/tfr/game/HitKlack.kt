@@ -44,8 +44,8 @@ class HitKlack(val view: View) : ApplicationAdapter() {
         val center = resolution.getCenter()
         renderer = GameFieldRenderer(center)
         val gameFieldSize = renderer.getFieldSize(gameField)
-
         controller = Controller(center, gameFieldSize, viewport, view)
+        container.addComponent(controller)
         controller.addTouchListener(game)
         display = Display(Box2D(center, 280f, 90f))
         displayRenderer = DisplayRenderer(display)

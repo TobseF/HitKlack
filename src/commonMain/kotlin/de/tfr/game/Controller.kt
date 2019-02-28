@@ -84,10 +84,10 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
 
     override fun onKeyEvent(views: Views, event: KeyEvent) {
         fun toControl(keycode: Key) = when (keycode) {
-            Key.KP_RIGHT -> Right
-            Key.KP_UP -> Top
-            Key.KP_DOWN -> Bottom
-            Key.KP_LEFT -> Left
+            Key.RIGHT -> Right
+            Key.UP -> Top
+            Key.DOWN -> Bottom
+            Key.LEFT -> Left
             Key.SPACE -> Action
             Key.P -> Pause
             Key.ESCAPE -> Esc
