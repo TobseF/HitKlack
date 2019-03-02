@@ -1,5 +1,7 @@
 package de.tfr.game
 
+import com.soywiz.korge.view.Container
+import de.tfr.game.lib.engine.Loadable
 import de.tfr.game.model.GameField
 import de.tfr.game.model.Orientation
 import de.tfr.game.model.Ring
@@ -8,7 +10,8 @@ import de.tfr.game.model.Stone.State
 import de.tfr.game.util.Timer
 
 
-class BoxGame(val field: GameField) : Controller.ControlListener {
+class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
+
 
     private var active: Stone
     private var activeRing: Ring? = null
@@ -20,6 +23,10 @@ class BoxGame(val field: GameField) : Controller.ControlListener {
     init {
         active = Stone(field[field.size - 1][Orientation.Left])
         timer = Timer(firstPause, this::doStep)
+    }
+
+    override suspend fun create(container: Container) {
+        sounds.create(container)
     }
 
     private fun doStep() {

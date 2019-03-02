@@ -29,12 +29,12 @@ suspend fun main() = Korge(width = resolution.width, height = resolution.height,
         position(resolution.width - 70, 70)
     }
 
+
     launchImmediately {
         while (true) {
             hitKlack.render(graphics = this.graphics { })
 
             image.tween(image::rotation[minDegrees], time = 1.seconds, easing = Easing.EASE_IN_OUT)
-            //image.tween(image::rotation[maxDegrees], time = 100.milliseconds, easing = Easing.EASE_IN_OUT)
         }
     }
 }

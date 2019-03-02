@@ -1,43 +1,37 @@
 package de.tfr.game
 
-import com.soywiz.korau.format.AudioFormats
-import com.soywiz.korau.format.registerStandard
-import com.soywiz.korau.sound.AudioData
-import com.soywiz.korau.sound.playAndWait
-import com.soywiz.korau.sound.readAudioData
+import com.soywiz.korau.sound.NativeSound
+import com.soywiz.korau.sound.readNativeSound
+import com.soywiz.korge.view.Container
 import com.soywiz.korio.file.std.resourcesVfs
+import de.tfr.game.lib.engine.Loadable
 
 
-class SoundMachine {
+class SoundMachine : Loadable {
 
-    private lateinit var circle_ok: AudioData
-    private lateinit var line_missed: AudioData
-    private lateinit var line_ok: AudioData
 
-    val formats = AudioFormats().registerStandard()
+    private lateinit var circle_ok: NativeSound
+    private lateinit var line_missed: NativeSound
+    private lateinit var line_ok: NativeSound
 
-    suspend fun init() {
-        circle_ok = newSound("circle_ok.ogg")
-        line_missed = newSound("line_missed.ogg")
-        line_ok = newSound("line_ok.ogg")
+    private suspend fun newSound(fileName: String) = resourcesVfs["sounds/$fileName"].readNativeSound()
+
+    override suspend fun create(container: Container) {
+        circle_ok = newSound("circle_ok.mp3")
+        line_missed = newSound("line_missed.mp3")
+        line_ok = newSound("line_ok.mp3")
     }
 
-    private suspend fun newSound(fileName: String) = resourcesVfs["sounds/" + fileName].readAudioData(formats)
-
     fun playCircleOK() {
-        //TODO: call playAndWaitCircleOK()
+        circle_ok.play()
     }
 
     fun playLineMissed() {
-        //TODO: call playAndWaitLineMissed()
+        line_missed.play()
     }
 
     fun playLineOK() {
-        //TODO: call playAndWaitLineOK()
+        line_ok.play()
     }
 
-
-    suspend fun playAndWaitCircleOK() = circle_ok.playAndWait()
-    suspend fun playAndWaitLineMissed() = line_missed.playAndWait()
-    suspend fun playAndWaitLineOK() = line_ok.playAndWait()
 }

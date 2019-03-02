@@ -1,4 +1,5 @@
-import com.soywiz.korge.gradle.*
+import com.soywiz.korge.gradle.korauVersion
+import com.soywiz.korge.gradle.korge
 
 buildscript {
 	repositories {
@@ -15,5 +16,6 @@ buildscript {
 apply(plugin = "korge")
 
 korge {
-	id = "com.sample.demo"
+    id = "de.tfr.game"
+    dependencyMulti("com.soywiz:korau-mp3:$korauVersion")
 }

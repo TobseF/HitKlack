@@ -40,6 +40,7 @@ class HitKlack(val view: View) : ApplicationAdapter() {
 
     override suspend fun create(container: Container) {
         game = BoxGame(gameField)
+        game.create(container)
 
         val center = resolution.getCenter()
         renderer = GameFieldRenderer(center)
