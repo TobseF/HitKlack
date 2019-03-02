@@ -10,9 +10,9 @@ import de.tfr.game.lib.engine.Loadable
 class SoundMachine : Loadable {
 
 
-    private lateinit var circle_ok: NativeSound
-    private lateinit var line_missed: NativeSound
-    private lateinit var line_ok: NativeSound
+    private var circle_ok: NativeSound? = null
+    private var line_missed: NativeSound? = null
+    private var line_ok: NativeSound? = null
 
     private suspend fun newSound(fileName: String) = resourcesVfs["sounds/$fileName"].readNativeSound()
 
@@ -23,15 +23,15 @@ class SoundMachine : Loadable {
     }
 
     fun playCircleOK() {
-        circle_ok.play()
+        circle_ok?.play()
     }
 
     fun playLineMissed() {
-        line_missed.play()
+        line_missed?.play()
     }
 
     fun playLineOK() {
-        line_ok.play()
+        line_ok?.play()
     }
 
 }

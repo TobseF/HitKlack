@@ -12,6 +12,6 @@ class Stone(var block: Block) {
     }
 
     override fun toString(): String {
-        return "Stone[$state]"
+        return "Stone[${block.row}-${block.orientation}-$state]"
     }
 }

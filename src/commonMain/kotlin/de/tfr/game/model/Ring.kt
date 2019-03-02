@@ -5,11 +5,11 @@ import kotlin.random.Random
 
 class Ring(val index: Int) : Iterable<Block> {
 
-    private val SIDES = 4
+    private val sides = 4
 
     override fun iterator() = blocks.iterator()
 
-    private var blocks: Array<Block> = Array(SIDES, { i -> Block(index, Orientation.values()[i]) })
+    private var blocks: Array<Block> = Array(sides) { i -> Block(index, Orientation.values()[i]) }
 
     operator fun get(orientation: Orientation) = blocks[orientation.ordinal]
 
@@ -17,7 +17,7 @@ class Ring(val index: Int) : Iterable<Block> {
 
     fun size() = blocks.filter { it.isTaken() }.count()
 
-    fun isFull() = size() == SIDES
+    fun isFull() = size() == sides
 
     fun freeSides(): List<Orientation> {
         return blocks.filter { it.isEmpty() }.map { it.orientation }.toList()
@@ -33,7 +33,7 @@ class Ring(val index: Int) : Iterable<Block> {
 
     override fun toString(): String {
         return "Ring:$index {${blocks.map { it.orientation.char() + (if (it.isEmpty()) "[_]" else "[X]") }.joinToString(
-                ",")}}"
+                ",")}}" + if (isFull()) " - (full)" else ""
     }
 
 }

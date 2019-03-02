@@ -31,6 +31,10 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
 
     private fun doStep() {
         timer.actionTime = fallingSpeed
+        move()
+    }
+
+    fun move() {
         move(active)
     }
 
@@ -64,12 +68,14 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
         respawnStone()
     }
 
-    private fun respawnStone() {
-        val field = field[field.size - 1][randomFreeOrientation()]
+    fun respawnStone(orientation: Orientation) {
+        val field = field[field.size - 1][orientation]
         active = Stone(field)
         timer.reset()
         timer.actionTime = firstPause
     }
+
+    fun respawnStone() = respawnStone(randomFreeOrientation())
 
     private fun randomFreeOrientation() = activeRing?.randomFreeSide() ?: Orientation.random()
 
@@ -85,7 +91,7 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
 
     private fun Stone.isInLastRow() = this.block.row == 0
 
-    private fun setStone() {
+    fun setStone() {
         if (active.block.isEmpty()) {
             setStone(active)
         }
@@ -133,4 +139,7 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
         firstFull()?.reset()
     }
 
+    override fun toString(): String {
+        return "Active: $active\n$field\n"
+    }
 }

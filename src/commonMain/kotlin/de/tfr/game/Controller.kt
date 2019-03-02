@@ -34,6 +34,7 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
     private val touchListeners: MutableCollection<ControlListener> = ArrayList()
 
     enum class Control { Left, Right, Top, Bottom, Esc, Action, Pause }
+
     private class Button(centerX: Double, centerY: Double, radius: Double) : Rectangle(centerX - radius,
             centerY - radius,
             radius * 2,
@@ -83,18 +84,19 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
     }
 
     override fun onKeyEvent(views: Views, event: KeyEvent) {
-        fun toControl(keycode: Key) = when (keycode) {
-            Key.RIGHT -> Right
-            Key.UP -> Top
-            Key.DOWN -> Bottom
-            Key.LEFT -> Left
-            Key.SPACE -> Action
-            Key.P -> Pause
-            Key.ESCAPE -> Esc
-            else -> null
-        }
-        toControl(event.key)?.let(this::notifyListener)
+        event.key.toControl()?.let(this::notifyListener)
         doHapticFeedback()
+    }
+
+    private fun Key.toControl() = when (this) {
+        Key.RIGHT -> Right
+        Key.UP -> Top
+        Key.DOWN -> Bottom
+        Key.LEFT -> Left
+        Key.SPACE -> Action
+        Key.P -> Pause
+        Key.ESCAPE -> Esc
+        else -> null
     }
 
 
