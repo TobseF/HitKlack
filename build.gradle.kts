@@ -16,4 +16,6 @@ apply(plugin = "korge")
 
 korge {
 	id = "com.sample.demo"
+	dependencyMulti("com.soywiz:korau-mp3:$korauVersion")
+	dependencyMulti("com.soywiz:korau-ogg-vorbis:$korauVersion")
 }

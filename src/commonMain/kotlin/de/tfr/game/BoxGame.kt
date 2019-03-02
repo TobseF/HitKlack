@@ -15,11 +15,15 @@ class BoxGame(val field: GameField) : Controller.ControlListener {
     private val timer: Timer
     private val fallingSpeed = 0.3
     private val firstPause = 0.7
-    private val sounds = SoundMachine()
+    private lateinit var sounds: SoundMachine
 
     init {
         active = Stone(field[field.size - 1][Orientation.Left])
         timer = Timer(firstPause, this::doStep)
+    }
+
+    suspend fun init() {
+        sounds = SoundMachine().apply { init() }
     }
 
     private fun doStep() {

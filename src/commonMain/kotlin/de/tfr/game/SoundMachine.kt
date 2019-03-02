@@ -1,20 +1,14 @@
 package de.tfr.game
 
-import com.soywiz.korau.format.AudioFormats
-import com.soywiz.korau.format.registerStandard
-import com.soywiz.korau.sound.AudioData
-import com.soywiz.korau.sound.playAndWait
-import com.soywiz.korau.sound.readAudioData
+import com.soywiz.korau.sound.*
 import com.soywiz.korio.file.std.resourcesVfs
 
 
 class SoundMachine {
 
-    private lateinit var circle_ok: AudioData
-    private lateinit var line_missed: AudioData
-    private lateinit var line_ok: AudioData
-
-    val formats = AudioFormats().registerStandard()
+    private lateinit var circle_ok: NativeSound
+    private lateinit var line_missed: NativeSound
+    private lateinit var line_ok: NativeSound
 
     suspend fun init() {
         circle_ok = newSound("circle_ok.ogg")
@@ -22,18 +16,24 @@ class SoundMachine {
         line_ok = newSound("line_ok.ogg")
     }
 
-    private suspend fun newSound(fileName: String) = resourcesVfs["sounds/" + fileName].readAudioData(formats)
+    private suspend fun newSound(fileName: String) = resourcesVfs["sounds/" + fileName].readNativeSound()
 
     fun playCircleOK() {
         //TODO: call playAndWaitCircleOK()
+        println("playCircleOK")
+        circle_ok.play()
     }
 
     fun playLineMissed() {
         //TODO: call playAndWaitLineMissed()
+        println("playLineMissed")
+        line_missed.play()
     }
 
     fun playLineOK() {
         //TODO: call playAndWaitLineOK()
+        println("playLineOK")
+        line_ok.play()
     }
 
 
