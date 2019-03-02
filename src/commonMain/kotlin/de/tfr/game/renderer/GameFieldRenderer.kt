@@ -15,13 +15,12 @@ import de.tfr.game.ui.GRAY_DARK
 import de.tfr.game.ui.GREEN_LIGHT
 import de.tfr.game.ui.GREEN_LIGHT2
 import de.tfr.game.util.extensions.startFill
-import de.tfr.game.util.extensions.triangle
 
 
 class GameFieldRenderer(point: Point) : Point by point {
 
     private val gap = 6
-    private val blockWith = 18f
+    private val blockWith = 18.0
     private val radius = 8f
     private lateinit var renderer: Graphics
 
@@ -76,8 +75,8 @@ class GameFieldRenderer(point: Point) : Point by point {
         when (block.orientation) {
             Orientation.Left -> renderBlock(block, stone, x - distance, y)
             Orientation.Right -> renderBlock(block, stone, x + distance, y)
-            Orientation.Up -> renderBlock(block, stone, x, y + distance)
-            Orientation.Down -> renderBlock(block, stone, x, y - distance)
+            Orientation.Down -> renderBlock(block, stone, x, y + distance)
+            Orientation.Up -> renderBlock(block, stone, x, y - distance)
         }
     }
 
@@ -94,59 +93,26 @@ class GameFieldRenderer(point: Point) : Point by point {
         when (block.orientation) {
             Orientation.Left -> renderer.rect(x - width, y - side, blockWith, length)
             Orientation.Right -> renderer.rect(x - width, y - side, blockWith, length)
-            Orientation.Up -> renderer.rect(x - side, y - width, length, blockWith)
             Orientation.Down -> renderer.rect(x - side, y - width, length, blockWith)
+            Orientation.Up -> renderer.rect(x - side, y - width, length, blockWith)
         }
-
-        fun renderTriangleLeftUp(x: Double, y: Double) = renderer.triangle(x, y, x, y + blockWith, x + blockWith, y)
-        fun renderTriangleLeftDown(x: Double, y: Double) = renderer.triangle(x, y, x, y - blockWith, x + blockWith, y)
-        fun renderTriangleRightUp(x: Double, y: Double) = renderer.triangle(x,
-                y,
-                x + blockWith,
-                y + blockWith,
-                x + blockWith,
-                y)
-
-        fun renderTriangleRightDown(x: Double, y: Double) = renderer.triangle(x,
-                y,
-                x + blockWith,
-                y - blockWith,
-                x + blockWith,
-                y)
-
-        fun renderTriangleUpLeft(x: Double, y: Double) = renderer.triangle(x,
-                y,
-                x,
-                y + blockWith,
-                x - blockWith,
-                y + blockWith)
-
-        fun renderTriangleUpRight(x: Double, y: Double) = renderer.triangle(x,
-                y,
-                x,
-                y + blockWith,
-                x + blockWith,
-                y + blockWith)
-
-        fun renderTriangleDownLeft(x: Double, y: Double) = renderer.triangle(x, y, x, y + blockWith, x - blockWith, y)
-        fun renderTriangleDownRight(x: Double, y: Double) = renderer.triangle(x, y, x, y + blockWith, x + blockWith, y)
 
         when (block.orientation) {
             Orientation.Left -> {
-                renderTriangleLeftUp(x - width, y + side)
-                renderTriangleLeftDown(x - width, y - side)
+                renderer.triangleLeftUp(blockWith, x - width, y + side)
+                renderer.triangleLeftDown(blockWith, x - width, y - side)
             }
             Orientation.Right -> {
-                renderTriangleRightUp(x - width, y + side)
-                renderTriangleRightDown(x - width, y - side)
-            }
-            Orientation.Up -> {
-                renderTriangleUpLeft(x - side, y - width)
-                renderTriangleUpRight(x + side, y - width)
+                renderer.triangleRightUp(blockWith, x - width, y + side)
+                renderer.triangleRightDown(blockWith, x - width, y - side)
             }
             Orientation.Down -> {
-                renderTriangleDownLeft(x - side, y - width)
-                renderTriangleDownRight(x + side, y - width)
+                renderer.triangleDownLeft(blockWith, x - side, y - width)
+                renderer.triangleDownRight(blockWith, x + side, y - width)
+            }
+            Orientation.Up -> {
+                renderer.triangleUpLeft(blockWith, x - side, y - width)
+                renderer.triangleUpRight(blockWith, x + side, y - width)
             }
 
         }
