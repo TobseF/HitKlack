@@ -19,4 +19,19 @@ class BoxGameTest : ViewsForTesting() {
         println(game)
         assertTrue("First ring should be full") { gameField[9].isFull() }
     }
+
+    @Test
+    fun testMissedRing() = viewsTest {
+        val gameField = GameField(10)
+        val game = BoxGame(gameField)
+        game.setStone()
+        game.setStone()
+        game.setStone()
+        println(game)
+        game.move()
+        game.setStone()
+        println(game)
+        assertTrue("First ring should be empty") { gameField[9].isEmpty() }
+        assertTrue("Second ring should be empty") { gameField[8].isEmpty() }
+    }
 }

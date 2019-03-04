@@ -17,6 +17,8 @@ class Ring(val index: Int) : Iterable<Block> {
 
     fun size() = blocks.filter { it.isTaken() }.count()
 
+    fun isEmpty() = size() == 0
+
     fun isFull() = size() == sides
 
     fun freeSides(): List<Orientation> {
