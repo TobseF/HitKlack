@@ -1,8 +1,10 @@
 package de.tfr.game.ui
 
 import com.soywiz.korev.KeyEvent
+import com.soywiz.korge.input.onDown
 import com.soywiz.korge.input.onKeyDown
 import com.soywiz.korge.input.onKeyUp
+import com.soywiz.korge.input.onUp
 import com.soywiz.korge.view.*
 import de.tfr.game.Controller
 import de.tfr.game.libgx.emu.Rectangle
@@ -28,6 +30,8 @@ class Button(val control: Controller.Control,
 
         image.onKeyDown { ifControlPressed(it) { setDown() } }
         image.onKeyUp { ifControlPressed(it) { setUp() } }
+        image.onUp { setUp() }
+        image.onDown { setDown() }
         return this
     }
 

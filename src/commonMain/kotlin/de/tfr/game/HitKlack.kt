@@ -38,10 +38,6 @@ class HitKlack(val view: View) : ApplicationAdapter() {
 
     override suspend fun create(container: Container) {
         game = BoxGame(gameField)
-        game.setStone()
-        game.setStone()
-        game.move()
-        game.create(container)
 
         val center = resolution.getCenter()
         renderer = GameFieldRenderer(center)
@@ -73,10 +69,8 @@ class HitKlack(val view: View) : ApplicationAdapter() {
 
     private fun renderField(graphics: Graphics) {
         this.renderer.apply {
-            start()
             render(game.field, graphics)
             game.getStones().forEach(renderer::renderStone)
-            end()
         }
     }
 

@@ -2,13 +2,9 @@ package de.tfr.game.renderer
 
 
 import com.soywiz.korge.view.Graphics
-import com.soywiz.korim.color.Colors
-import com.soywiz.korma.geom.IRectangle
-import com.soywiz.korma.geom.shape.Shape2d
 import com.soywiz.korma.geom.vector.circle
 import com.soywiz.korma.geom.vector.rect
 import de.tfr.game.lib.actor.Point
-import de.tfr.game.lib.actor.Point2D
 import de.tfr.game.model.*
 import de.tfr.game.ui.BLACK
 import de.tfr.game.ui.GRAY_DARK
@@ -24,14 +20,11 @@ class GameFieldRenderer(point: Point) : Point by point {
     private val radius = 8f
     private lateinit var renderer: Graphics
 
-    fun start() {}
-
     fun render(field: GameField, renderer: Graphics) {
         this.renderer = renderer
         renderBackground(field, renderer)
         renderer.startFill(GREEN_LIGHT2)
         renderer.circle(x, y, radius)
-        renderer.endFill()
 
         field.forEach(this::renderRing)
     }
@@ -45,25 +38,8 @@ class GameFieldRenderer(point: Point) : Point by point {
 
     fun getFieldSize(field: GameField): Double = (blockWith / 2.0) + field.size * (gap + blockWith)
 
-    fun end() {
-        renderer.endFill()
-    }
-
     private fun renderRing(ring: Ring) {
         ring.forEach { renderBlock(it, it.stone) }
-    }
-
-    fun IRectangle.center(): Point {
-        return Point2D((x + (width / 2.0)), (y + (height / 2.0)))
-    }
-
-    fun renderTouchArea(touchAreas: List<Shape2d.Rectangle>) {
-        renderer.startFill(Colors.NAVY)
-
-        touchAreas.forEach {
-            val center = it.center()
-            renderer.circle(center.x, center.y, it.width / 2)
-        }
     }
 
     fun renderStone(stone: Stone) {
