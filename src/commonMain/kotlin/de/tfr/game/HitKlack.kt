@@ -10,7 +10,6 @@ import de.tfr.game.lib.actor.Box2D
 import de.tfr.game.libgx.emu.ApplicationAdapter
 import de.tfr.game.libgx.emu.Viewport
 import de.tfr.game.model.GameField
-import de.tfr.game.renderer.ControllerRenderer
 import de.tfr.game.renderer.DisplayRenderer
 import de.tfr.game.renderer.GameFieldRenderer
 import de.tfr.game.renderer.LogoRenderer
@@ -24,7 +23,6 @@ class HitKlack(val view: View) : ApplicationAdapter() {
     private lateinit var controller: Controller
     private lateinit var display: Display
     private lateinit var displayRenderer: DisplayRenderer
-    private lateinit var controllerRenderer: ControllerRenderer
     private lateinit var game: BoxGame
     private lateinit var logo: LogoRenderer
 
@@ -40,19 +38,21 @@ class HitKlack(val view: View) : ApplicationAdapter() {
 
     override suspend fun create(container: Container) {
         game = BoxGame(gameField)
+        game.setStone()
+        game.setStone()
+        game.move()
         game.create(container)
 
         val center = resolution.getCenter()
         renderer = GameFieldRenderer(center)
         val gameFieldSize = renderer.getFieldSize(gameField)
         controller = Controller(center, gameFieldSize, viewport, view)
+        controller.create(container)
         container.addComponent(controller)
         controller.addTouchListener(game)
         display = Display(Box2D(center, 280f, 90f))
         displayRenderer = DisplayRenderer(display)
         displayRenderer.create(container)
-        controllerRenderer = ControllerRenderer(controller)
-        controllerRenderer.create(container)
         logo = LogoRenderer(center, gameFieldSize)
         logo.create(container)
     }
@@ -60,7 +60,6 @@ class HitKlack(val view: View) : ApplicationAdapter() {
     override suspend fun render(graphics: Graphics) {
         val deltaTime = getDeltaTime()
         log.debug { "time$deltaTime" }
-        controllerRenderer.render(controller)
         renderField(graphics)
         game.update(deltaTime)
         displayRenderer.render(graphics)
@@ -69,7 +68,7 @@ class HitKlack(val view: View) : ApplicationAdapter() {
     private fun getDeltaTime(): Double {
         val deltaTime = PerformanceCounter.microseconds - time
         time = PerformanceCounter.microseconds
-        return deltaTime / (1000 * 1000)
+        return (deltaTime / (1000 * 1000)) / 2
     }
 
     private fun renderField(graphics: Graphics) {

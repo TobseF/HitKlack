@@ -6,41 +6,47 @@ import com.soywiz.korev.KeyEvent
 import com.soywiz.korev.TouchEvent
 import com.soywiz.korge.component.KeyComponent
 import com.soywiz.korge.component.TouchComponent
+import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.View
 import com.soywiz.korge.view.Views
 import com.soywiz.korma.geom.length
 import de.tfr.game.Controller.Control.*
 import de.tfr.game.lib.actor.Point
+import de.tfr.game.lib.engine.Loadable
 import de.tfr.game.libgx.emu.Input
-import de.tfr.game.libgx.emu.Rectangle
 import de.tfr.game.libgx.emu.Viewport
+import de.tfr.game.renderer.ButtonTiles
+import de.tfr.game.renderer.ButtonTiles.Style
+import de.tfr.game.ui.Button
 
 
-class Controller(point: Point, gameRadius: Double, val viewport: Viewport, override val view: View) : TouchComponent,
-        KeyComponent,
-        Point by point {
+class Controller(point: Point,
+        val gameRadius: Double,
+        val viewport: Viewport,
+        override val view: View) : TouchComponent, KeyComponent, Point by point, Loadable {
 
-    val left: TouchArea
-    val right: TouchArea
-    val top: TouchArea
-    val bottom: TouchArea
+    override suspend fun create(container: Container) {
+        val tiles = ButtonTiles().apply { create(container) }
+
+        top = Button(Top, x, y - gameRadius - distance, tiles.get(Style.Green), view).create(container)
+        right = Button(Right, x + gameRadius + distance, y, tiles.get(Style.Blue), view).create(container)
+        bottom = Button(Bottom, x, y + gameRadius + distance, tiles.get(Style.Yellow), view).create(container)
+        left = Button(Left, x - gameRadius - distance, y, tiles.get(Style.Red), view).create(container)
+    }
+
+    lateinit var left: Button
+    lateinit var right: Button
+    lateinit var top: Button
+    lateinit var bottom: Button
 
     var lastTouch: List<com.soywiz.korma.geom.Point> = emptyList()
 
     private val distance = 90f
-    private val radius = 62.0
     private val vibrateTime = 26
 
     private val touchListeners: MutableCollection<ControlListener> = ArrayList()
 
     enum class Control { Left, Right, Top, Bottom, Esc, Action, Pause }
-
-    private class Button(centerX: Double, centerY: Double, radius: Double) : Rectangle(centerX - radius,
-            centerY - radius,
-            radius * 2,
-            radius * 2)
-
-    class TouchArea(val control: Control, val rect: Rectangle)
 
     interface ControlListener {
         fun controlEvent(control: Control)
@@ -48,7 +54,8 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
 
     fun isPressed(control: Control): Boolean {
         val touchPointers = getTouchPointers()
-        fun touches(touchArea: TouchArea) = touchPointers.any(touchArea.rect::contains)
+        fun touches(touchArea: Button) = touchPointers.any(touchArea::contains)
+
         return when (control) {
             Left -> touches(left)
             Right -> touches(right)
@@ -60,14 +67,7 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
 
     private fun getTouchPointers() = lastTouch.map { viewport.unproject(it) }.filter { !it.length.isAlmostZero() }
 
-    init {
-        left = TouchArea(Left, Button(x - gameRadius - distance, y, radius))
-        right = TouchArea(Right, Button(x + gameRadius + distance, y, radius))
-        top = TouchArea(Top, Button(x, y + gameRadius + distance, radius))
-        bottom = TouchArea(Bottom, Button(x, y - gameRadius - distance, radius))
-    }
-
-    val touchAreas: List<TouchArea> by lazy {
+    val touchAreas: List<Button> by lazy {
         arrayListOf(left, right, top, bottom)
     }
 
@@ -76,7 +76,7 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
         lastTouch.forEach { point ->
             val worldCords = viewport.unproject(point)
 
-            touchAreas.filter { it.rect.contains(worldCords) }.forEach {
+            touchAreas.filter { it.contains(worldCords) }.forEach {
                 doHapticFeedback()
                 notifyListener(it.control)
             }
@@ -88,17 +88,6 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
         doHapticFeedback()
     }
 
-    private fun Key.toControl() = when (this) {
-        Key.RIGHT -> Right
-        Key.UP -> Top
-        Key.DOWN -> Bottom
-        Key.LEFT -> Left
-        Key.SPACE -> Action
-        Key.P -> Pause
-        Key.ESCAPE -> Esc
-        else -> null
-    }
-
 
     private fun doHapticFeedback() = Input.vibrate(vibrateTime)
 
@@ -106,4 +95,15 @@ class Controller(point: Point, gameRadius: Double, val viewport: Viewport, overr
 
     private fun notifyListener(control: Control) = touchListeners.forEach { it.controlEvent(control) }
 
+}
+
+fun Key.toControl() = when (this) {
+    Key.RIGHT -> Right
+    Key.UP -> Top
+    Key.DOWN -> Bottom
+    Key.LEFT -> Left
+    Key.SPACE -> Action
+    Key.P -> Pause
+    Key.ESCAPE -> Esc
+    else -> null
 }
