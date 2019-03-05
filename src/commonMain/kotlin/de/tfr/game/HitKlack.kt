@@ -53,8 +53,8 @@ class HitKlack(val view: View) : ApplicationAdapter() {
     override suspend fun render(graphics: Graphics) {
         val deltaTime = getDeltaTime()
         log.debug { "time$deltaTime" }
-        renderField(graphics)
         game.update(deltaTime)
+        renderField(graphics)
         displayRenderer.render(graphics)
     }
 
