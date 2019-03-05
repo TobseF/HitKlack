@@ -8,7 +8,6 @@ import com.soywiz.korge.view.Graphics
 import com.soywiz.korge.view.View
 import de.tfr.game.lib.actor.Box2D
 import de.tfr.game.libgx.emu.ApplicationAdapter
-import de.tfr.game.libgx.emu.Viewport
 import de.tfr.game.model.GameField
 import de.tfr.game.renderer.DisplayRenderer
 import de.tfr.game.renderer.GameFieldRenderer
@@ -28,8 +27,6 @@ class HitKlack(val view: View) : ApplicationAdapter() {
 
     private val gameField = GameField(10)
 
-    val viewport = Viewport
-
     private var time: Double
 
     init {
@@ -42,7 +39,7 @@ class HitKlack(val view: View) : ApplicationAdapter() {
         val center = resolution.getCenter()
         renderer = GameFieldRenderer(center)
         val gameFieldSize = renderer.getFieldSize(gameField)
-        controller = Controller(center, gameFieldSize, viewport, view)
+        controller = Controller(center, gameFieldSize, view)
         controller.create(container)
         container.addComponent(controller)
         controller.addTouchListener(game)
@@ -64,7 +61,7 @@ class HitKlack(val view: View) : ApplicationAdapter() {
     private fun getDeltaTime(): Double {
         val deltaTime = PerformanceCounter.microseconds - time
         time = PerformanceCounter.microseconds
-        return (deltaTime / (1000 * 1000)) / 2
+        return (deltaTime / (1000 * 1000))
     }
 
     private fun renderField(graphics: Graphics) {
@@ -75,6 +72,5 @@ class HitKlack(val view: View) : ApplicationAdapter() {
     }
 
     override fun resize(width: Int, height: Int) {
-        viewport.update(width, height, true)
     }
 }

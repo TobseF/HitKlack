@@ -7,17 +7,17 @@ import com.soywiz.korge.input.onKeyUp
 import com.soywiz.korge.input.onUp
 import com.soywiz.korge.view.*
 import de.tfr.game.Controller
-import de.tfr.game.libgx.emu.Rectangle
+import de.tfr.game.lib.actor.Point
+import de.tfr.game.lib.actor.Point2D
 import de.tfr.game.renderer.ButtonTiles
 import de.tfr.game.toControl
 
 class Button(val control: Controller.Control,
-        centerX: Double,
-        centerY: Double,
+        center: Point2D,
         private val style: ButtonTiles.ButtonImage,
-        val view: View,
-        radius: Double = 62.0) : Rectangle(centerX - radius, centerY - radius, radius * 2, radius * 2) {
+        val view: View) : Point by center {
 
+    var clickListener: (() -> Any)? = null
 
     private lateinit var image: Image
 
@@ -26,6 +26,7 @@ class Button(val control: Controller.Control,
         val posY = y
         image = container.image(style.normal) {
             position(posX, posY)
+            anchor(.5, .5)
         }
 
         image.onKeyDown { ifControlPressed(it) { setDown() } }
@@ -36,6 +37,7 @@ class Button(val control: Controller.Control,
     }
 
     private fun setDown() {
+        clickListener?.invoke()
         image.texture = style.pressed
     }
 

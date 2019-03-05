@@ -29,7 +29,6 @@ suspend fun main() = Korge(width = resolution.width, height = resolution.height,
         position(resolution.width - 70, 70)
     }
 
-
     launchImmediately {
         while (true) {
             hitKlack.render(graphics = this.graphics { })
