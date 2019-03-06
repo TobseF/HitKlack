@@ -53,7 +53,9 @@ class Controller(point: Point, val gameRadius: Double, override val view: View) 
     }
 
     override fun onKeyEvent(views: Views, event: KeyEvent) {
-        event.key.toControl()?.let(this::notifyListener)
+        if (event.type == KeyEvent.Type.DOWN) {
+            event.key.toControl()?.let(this::notifyListener)
+        }
         doHapticFeedback()
     }
 

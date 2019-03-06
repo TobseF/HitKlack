@@ -1,19 +1,19 @@
 package de.tfr.game
 
 import com.soywiz.korge.view.Container
+import de.tfr.game.Controller.Control
 import de.tfr.game.lib.engine.Loadable
+import de.tfr.game.model.Block
 import de.tfr.game.model.GameField
 import de.tfr.game.model.Orientation
 import de.tfr.game.model.Ring
-import de.tfr.game.model.Stone
-import de.tfr.game.model.Stone.State
 import de.tfr.game.util.Timer
+import debug
 
 
 class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
 
-
-    private var active: Stone
+    private var cursor: Block
     private var activeRing: Ring? = null
     private val timer: Timer
     private val fallingSpeed = 0.3
@@ -21,7 +21,8 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     private val sounds = SoundMachine()
 
     init {
-        active = Stone(field[field.size - 1][Orientation.Left])
+        cursor = field[field.size - 1][Orientation.Left]
+        cursor.active = true
         timer = Timer(firstPause, this::doStep)
     }
 
@@ -35,96 +36,101 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     }
 
     fun move() {
-        move(active)
+        move(cursor)
     }
 
     override fun controlEvent(control: Controller.Control) {
         when (control) {
-            active.block.orientation.toControl() -> setStone()
-            Controller.Control.Action -> setStone(active)
-            Controller.Control.Esc -> reset()
-            Controller.Control.Pause -> timer.togglePause()
+            Control.Left, Control.Right, Control.Top, Control.Bottom -> {
+                if (cursor.orientation.toControl() == control) {
+                    setBlock()
+                }
+            }
+            Control.Action -> {
+                if (debug) {
+                    move()
+                }
+            }
+            Control.Esc -> reset()
+            Control.Pause -> timer.togglePause()
         }
     }
 
-    fun Orientation.toControl(): Controller.Control = when (this) {
-        Orientation.Left -> Controller.Control.Left
-        Orientation.Right -> Controller.Control.Right
-        Orientation.Up -> Controller.Control.Top
-        Orientation.Down -> Controller.Control.Bottom
+    private fun Orientation.toControl(): Controller.Control = when (this) {
+        Orientation.Left -> Control.Left
+        Orientation.Right -> Control.Right
+        Orientation.Up -> Control.Top
+        Orientation.Down -> Control.Bottom
     }
 
-
-    fun getStones() = listOf(active)
-
     fun update(deltaTime: Double) {
-        timer.update(deltaTime)
+        if (!debug) {
+            timer.update(deltaTime)
+        }
     }
 
     private fun reset() {
         field.reset()
         timer.reset()
         activeRing = null
-        respawnStone()
+        respawnBlock()
     }
 
-    fun respawnStone(orientation: Orientation) {
-        val field = field[field.size - 1][orientation]
-        active = Stone(field)
+    fun respawnBlock(orientation: Orientation) {
+        cursor = field[field.size - 1][orientation]
+        cursor.active = true
         timer.reset()
         timer.actionTime = firstPause
     }
 
-    fun respawnStone() = respawnStone(randomFreeOrientation())
+    fun respawnBlock() = respawnBlock(randomFreeOrientation())
 
     private fun randomFreeOrientation() = activeRing?.randomFreeSide() ?: Orientation.random()
 
-
-    private fun move(stone: Stone) {
-        if (stone.isInLastRow()) {
+    private fun move(block: Block) {
+        if (block.isInLastRow()) {
             misstep()
         } else {
-            val next = field[active.block.row - 1][active.block.orientation]
-            active.block = next
+            cursor.active = false
+            val next = field[cursor.row - 1][cursor.orientation]
+            next.active = true
+            cursor = next
         }
     }
 
-    private fun Stone.isInLastRow() = this.block.row == 0
+    private fun Block.isInLastRow() = this.row == 0
 
-    fun setStone() {
-        if (active.block.isEmpty()) {
-            setStone(active)
+    fun setBlock() {
+        if (cursor.isEmpty()) {
+            setBlock(cursor)
         }
     }
 
-    private infix fun Stone.isOutsideOf(ring: Ring?) = ring?.index != this.block.row
+    private infix fun Block.isOutsideOf(ring: Ring?) = ring?.index != this.row
 
-    private fun setStone(stone: Stone) {
-        active.block.stone = active
-        stone.freeze()
+    private fun setBlock(block: Block) {
+        block.active = false
+        block.setFull()
         if (activeRing != null) {
             if (activeRing!!.isFull()) {
                 sounds.playCircleOK()
                 activeRing = null
-            } else if (active isOutsideOf activeRing) {
+            } else if (cursor isOutsideOf activeRing) {
                 misstep()
             } else {
                 sounds.playLineOK()
             }
         } else {
             sounds.playLineOK()
-            activeRing = field[active.block.row]
+            activeRing = field[cursor.row]
         }
-        respawnStone()
+        respawnBlock()
     }
 
     private fun misstep() {
         sounds.playLineMissed()
         resetRing()
-        if (active.state == State.Set) {
-            active.block.reset()
-        }
-        respawnStone()
+        cursor.reset()
     }
 
     private fun resetRing() {
@@ -140,6 +146,6 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     }
 
     override fun toString(): String {
-        return "Active: $active\n$field\n"
+        return "Active: $cursor\n$field\n"
     }
 }

@@ -23,6 +23,12 @@ fun Graphics.startFill(color: RGBA) {
     this.beginFill(Context2d.Color(color))
 }
 
+fun Graphics.drawFill(color: RGBA, renderAction: (Graphics) -> Any) {
+    this.startFill(color)
+    renderAction.invoke(this)
+    this.endFill()
+}
+
 fun Graphics.text(text: String,
         x: Number,
         y: Number,

@@ -1,20 +1,46 @@
 package de.tfr.game.model
 
+import com.soywiz.korge.view.Image
 
-class Block(val row: Int, val orientation: Orientation) {
-    var stone: Stone? = null
+class Block(val ring: Ring, val orientation: Orientation) {
+    val row = ring.index
+    var image: Image? = null
 
-    fun isEmpty(): Boolean {
-        return stone == null
+    enum class State { Full, Empty }
+
+    var active = false
+        set(value) {
+            field = value
+            if (value) {
+                image?.visible = true
+                image?.alpha = 0.95
+            } else {
+                image?.alpha = 0.7
+                image?.visible = state == State.Full
+            }
+        }
+
+    var state = State.Empty
+        set(value) {
+            field = value
+            when (value) {
+                State.Full -> image?.visible = true
+                State.Empty -> image?.visible = false
+            }
+        }
+
+    fun setFull() {
+        state = State.Full
     }
 
-    fun isTaken(): Boolean {
-        return !isEmpty()
-    }
+    fun isEmpty() = state == State.Empty
 
-    override fun toString() = "Block [$row ${orientation.char()} $stone]"
+    fun isTaken() = state == State.Full
+
+    override fun toString() = "Block [$ring ${orientation.char()} $state]"
 
     fun reset() {
-        stone = null
+        active = false
+        state = State.Empty
     }
 }

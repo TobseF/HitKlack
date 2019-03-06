@@ -9,7 +9,7 @@ class Ring(val index: Int) : Iterable<Block> {
 
     override fun iterator() = blocks.iterator()
 
-    private var blocks: Array<Block> = Array(sides) { i -> Block(index, Orientation.values()[i]) }
+    var blocks: Array<Block> = Array(sides) { i -> Block(this, Orientation.values()[i]) }
 
     operator fun get(orientation: Orientation) = blocks[orientation.ordinal]
 
@@ -34,7 +34,9 @@ class Ring(val index: Int) : Iterable<Block> {
     }
 
     override fun toString(): String {
-        return "Ring:$index {${blocks.map { it.orientation.char() + (if (it.isEmpty()) "[_]" else "[X]") }.joinToString(
+        return "Ring:$index {${blocks.map {
+            it.orientation.char() + (if (it.isEmpty()) "[_]" else "[X]") + if (it.active) "A" else ""
+        }.joinToString(
                 ",")}}" + if (isFull()) " - (full)" else ""
     }
 

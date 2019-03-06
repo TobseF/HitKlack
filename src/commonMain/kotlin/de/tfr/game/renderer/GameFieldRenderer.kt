@@ -1,98 +1,132 @@
 package de.tfr.game.renderer
 
 
+import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.Graphics
+import com.soywiz.korge.view.graphics
 import com.soywiz.korma.geom.vector.circle
 import com.soywiz.korma.geom.vector.rect
 import de.tfr.game.lib.actor.Point
-import de.tfr.game.model.*
+import de.tfr.game.lib.engine.Loadable
+import de.tfr.game.model.Block
+import de.tfr.game.model.GameField
+import de.tfr.game.model.Orientation
+import de.tfr.game.model.Ring
 import de.tfr.game.ui.BLACK
-import de.tfr.game.ui.GRAY_DARK
 import de.tfr.game.ui.GREEN_LIGHT
 import de.tfr.game.ui.GREEN_LIGHT2
+import de.tfr.game.util.extensions.drawFill
 import de.tfr.game.util.extensions.startFill
 
 
-class GameFieldRenderer(point: Point) : Point by point {
+class GameFieldRenderer(point: Point, val field: GameField) : Point by point, Loadable {
 
     private val gap = 6
     private val blockWith = 18.0
     private val radius = 8f
-    private lateinit var renderer: Graphics
+    private fun thisX() = x
+    private fun thisY() = y
 
-    fun render(field: GameField, renderer: Graphics) {
-        this.renderer = renderer
-        renderBackground(field, renderer)
-        renderer.startFill(GREEN_LIGHT2)
-        renderer.circle(x, y, radius)
-
-        field.forEach(this::renderRing)
+    override suspend fun create(container: Container) {
+        createBackground(container)
+        createFieldCache(container)
     }
 
-    private fun renderBackground(field: GameField, renderer: Graphics) {
+    private fun createFieldCache(container: Container) {
+
+        for (ring in field) {
+            for (block in ring) {
+                val ringI = ring.index
+                val blockI = block.orientation
+                val field = GameField(field.size)
+                field.setActive()
+                val cacheImage = container.graphics()
+                val newBlock = field[ringI][blockI]
+                newBlock.state = Block.State.Full
+                newBlock.active = false
+                cacheImage.renderField(field)
+                cacheImage.visible = false
+                block.image = cacheImage
+            }
+        }
+    }
+
+    private fun createBackground(container: Container) {
+        val background = container.graphics()
+        renderBackground(field.size, background)
+        background.drawFill(GREEN_LIGHT2) {
+            it.circle(x, y, radius)
+        }
+        val emptyField = GameField(field.size)
+        background.renderField(emptyField)
+    }
+
+    fun Graphics.renderField(gameField: GameField) {
+        gameField.forEach { this.renderRing(it) }
+    }
+
+    private fun renderBackground(fieldSize: Int, renderer: Graphics) {
         renderer.startFill(GREEN_LIGHT)
-        val radius = getFieldSize(field)
+        val radius = getFieldSize(fieldSize)
         renderer.rect(x - radius, y - radius, radius * 2, radius * 2)
         renderer.endFill()
     }
 
-    fun getFieldSize(field: GameField): Double = (blockWith / 2.0) + field.size * (gap + blockWith)
+    fun getFieldSize(fieldSize: Int): Double = (blockWith / 2.0) + fieldSize * (gap + blockWith)
 
-    private fun renderRing(ring: Ring) {
-        ring.forEach { renderBlock(it, it.stone) }
+    private fun Graphics.renderRing(ring: Ring) {
+        ring.forEach { renderBlock(it) }
     }
 
-    fun renderStone(stone: Stone) {
-        renderBlock(stone.block, stone)
-    }
-
-    private fun renderBlock(block: Block, stone: Stone?) {
+    private fun Graphics.renderBlock(block: Block) {
         val distance = gap + blockWith + (block.row * (gap + blockWith))
         when (block.orientation) {
-            Orientation.Left -> renderBlock(block, stone, x - distance, y)
-            Orientation.Right -> renderBlock(block, stone, x + distance, y)
-            Orientation.Down -> renderBlock(block, stone, x, y + distance)
-            Orientation.Up -> renderBlock(block, stone, x, y - distance)
+            Orientation.Left -> renderBlock(block, thisX() - distance, thisY())
+            Orientation.Right -> renderBlock(block, thisX() + distance, thisY())
+            Orientation.Down -> renderBlock(block, thisX(), thisY() + distance)
+            Orientation.Up -> renderBlock(block, thisX(), thisY() - distance)
         }
     }
 
-    private fun renderBlock(block: Block, stone: Stone?, x: Double, y: Double) {
+    private fun Graphics.renderBlock(block: Block, x: Double, y: Double) {
         val length = ((block.row) * (blockWith * 2)) + ((2 * gap) * (block.row + 1))
         val side = length / 2
         val width = blockWith / 2
-        when {
-            stone == null -> renderer.startFill(GREEN_LIGHT2)
-            stone.state == Stone.State.Active -> renderer.startFill(BLACK)
-            stone.state == Stone.State.Set -> renderer.startFill(GRAY_DARK)
+        if (block.active) {
+            return
+        }
+        when (block.state) {
+            Block.State.Empty -> this.startFill(GREEN_LIGHT2)
+            Block.State.Full -> this.startFill(BLACK)
         }
 
         when (block.orientation) {
-            Orientation.Left -> renderer.rect(x - width, y - side, blockWith, length)
-            Orientation.Right -> renderer.rect(x - width, y - side, blockWith, length)
-            Orientation.Down -> renderer.rect(x - side, y - width, length, blockWith)
-            Orientation.Up -> renderer.rect(x - side, y - width, length, blockWith)
+            Orientation.Left -> rect(x - width, y - side, blockWith, length)
+            Orientation.Right -> rect(x - width, y - side, blockWith, length)
+            Orientation.Down -> rect(x - side, y - width, length, blockWith)
+            Orientation.Up -> rect(x - side, y - width, length, blockWith)
         }
 
         when (block.orientation) {
             Orientation.Left -> {
-                renderer.triangleLeftUp(blockWith, x - width, y + side)
-                renderer.triangleLeftDown(blockWith, x - width, y - side)
+                triangleLeftUp(blockWith, x - width, y + side)
+                triangleLeftDown(blockWith, x - width, y - side)
             }
             Orientation.Right -> {
-                renderer.triangleRightUp(blockWith, x - width, y + side)
-                renderer.triangleRightDown(blockWith, x - width, y - side)
+                triangleRightUp(blockWith, x - width, y + side)
+                triangleRightDown(blockWith, x - width, y - side)
             }
             Orientation.Down -> {
-                renderer.triangleDownLeft(blockWith, x - side, y - width)
-                renderer.triangleDownRight(blockWith, x + side, y - width)
+                triangleDownLeft(blockWith, x - side, y - width)
+                triangleDownRight(blockWith, x + side, y - width)
             }
             Orientation.Up -> {
-                renderer.triangleUpLeft(blockWith, x - side, y - width)
-                renderer.triangleUpRight(blockWith, x + side, y - width)
+                triangleUpLeft(blockWith, x - side, y - width)
+                triangleUpRight(blockWith, x + side, y - width)
             }
 
         }
-        renderer.endFill()
+        endFill()
     }
 
 }

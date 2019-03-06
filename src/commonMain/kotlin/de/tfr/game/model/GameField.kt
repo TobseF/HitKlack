@@ -5,11 +5,7 @@ class GameField(var size: Int) : Iterable<Ring> {
 
     override fun iterator() = rings.iterator()
 
-    private var rings: Array<Ring>
-
-    init {
-        rings = Array(size, ::Ring)
-    }
+    private val rings: Array<Ring> = Array(size, ::Ring)
 
     operator fun get(index: Int) = rings[index]
 
@@ -17,5 +13,7 @@ class GameField(var size: Int) : Iterable<Ring> {
 
 
     override fun toString() = rings.joinToString("\n")
+
+    fun setActive() = forEach { ring -> ring.forEach { block -> block.active = true } }
 
 }

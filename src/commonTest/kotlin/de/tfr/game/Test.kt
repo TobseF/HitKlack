@@ -12,10 +12,10 @@ class BoxGameTest : ViewsForTesting() {
     fun testFirstRowFull() = viewsTest {
         val gameField = GameField(10)
         val game = BoxGame(gameField)
-        game.setStone()
-        game.setStone()
-        game.setStone()
-        game.setStone()
+        game.setBlock()
+        game.setBlock()
+        game.setBlock()
+        game.setBlock()
         println(game)
         assertTrue("First ring should be full") { gameField[9].isFull() }
     }
@@ -24,14 +24,16 @@ class BoxGameTest : ViewsForTesting() {
     fun testMissedRing() = viewsTest {
         val gameField = GameField(10)
         val game = BoxGame(gameField)
-        game.setStone()
-        game.setStone()
-        game.setStone()
+        game.setBlock()
+        game.setBlock()
+        game.setBlock()
         println(game)
         game.move()
-        game.setStone()
+        println(game)
+        game.setBlock()
         println(game)
         assertTrue("First ring should be empty") { gameField[9].isEmpty() }
         assertTrue("Second ring should be empty") { gameField[8].isEmpty() }
+        assertTrue("Only block should be active") { gameField[9].blocks.count { it.active } == 1 }
     }
 }
