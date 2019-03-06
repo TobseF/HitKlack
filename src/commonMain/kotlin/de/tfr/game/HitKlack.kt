@@ -32,7 +32,7 @@ class HitKlack(override val view: View) : UpdateComponent, Loadable {
     override suspend fun create(container: Container) {
         val center = resolution.getCenter()
         renderer = GameFieldRenderer(center, gameField).apply { create(container) }
-        game = BoxGame(gameField)
+        game = BoxGame(gameField).apply { create(container) }
 
         val gameFieldSize = renderer.getFieldSize(gameField.size)
         controller = Controller(center, gameFieldSize, view)

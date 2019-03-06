@@ -5,6 +5,7 @@ import com.soywiz.korau.sound.readNativeSound
 import com.soywiz.korge.view.Container
 import com.soywiz.korio.file.std.resourcesVfs
 import de.tfr.game.lib.engine.Loadable
+import debug
 
 
 class SoundMachine : Loadable {
@@ -23,15 +24,21 @@ class SoundMachine : Loadable {
     }
 
     fun playCircleOK() {
-        circle_ok?.play()
+        if (!debug) {
+            circle_ok?.play()
+        }
     }
 
     fun playLineMissed() {
-        line_missed?.play()
+        if (!debug) {
+            line_missed?.play()
+        }
     }
 
     fun playLineOK() {
-        line_ok?.play()
+        if (!debug) {
+            line_ok?.play()
+        }
     }
 
 }
