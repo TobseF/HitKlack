@@ -90,6 +90,7 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     private fun move(block: Block) {
         if (block.isInLastRow()) {
             misstep()
+            respawnBlock()
         } else {
             cursor.active = false
             val next = field[cursor.row - 1][cursor.orientation]
