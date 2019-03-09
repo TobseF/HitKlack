@@ -17,7 +17,7 @@ class ButtonTiles : Loadable {
     lateinit var buttons: TileSet
 
     override suspend fun create(container: Container) {
-        val texture = container.image(resourcesVfs["buttons.png"].readBitmap()) {
+        val texture = container.image(resourcesVfs["images/buttons.png"].readBitmap()) {
             visible = false
         }
         buttons = TileSet(texture.texture as BitmapSlice<Bitmap>, 120, 120)

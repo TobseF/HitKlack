@@ -14,7 +14,7 @@ class LogoRenderer(val point: Point, val gameFieldSize: Double) : Point by point
         container.image(resourcesVfs["images/hitclack_logo.png"].readBitmap()) {
             position(point.x - width / 2, point.y - gameFieldSize - 390)
         }
-        container.image(resourcesVfs["korge.png"].readBitmap()) {
+        container.image(resourcesVfs["images/korge_logo.png"].readBitmap()) {
             rotation = (+16).degrees
             anchor(.5, .5)
             scale(.2)

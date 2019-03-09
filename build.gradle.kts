@@ -19,12 +19,16 @@ apply(plugin = "korge")
 
 korge {
     id = "de.tfr.game.hitclack"
-    authorName = "TobseF"
+
     name = "HitKlack"
+    authorName = "TobseF"
     description = "Retro console game remake of Mephisto Hit Klack"
     gameCategory = GameCategory.ARCADE
-    orientation = Orientation.PORTRAIT
+
     exeBaseName = "HitKlack"
+    icon = File("build-res/icon.png")
+
+    orientation = Orientation.PORTRAIT
 
     dependencyMulti("com.soywiz:korau-mp3:$korauVersion")
 }
