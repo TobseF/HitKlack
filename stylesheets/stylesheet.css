@@ -392,6 +392,10 @@ Full-Width Styles
     position: relative;
 }
 
+.play-button img{
+    border-radius: 32px;
+}
+
 svg#play {
     width:200px;
     display:block;
