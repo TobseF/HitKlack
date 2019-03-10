@@ -368,6 +368,53 @@ Full-Width Styles
   background: #212121;
 }
 
+#instant-play{
+    background: url(../images/sprite_download.png) no-repeat top right;
+}
+
+.play-button{
+    position: relative;
+}
+
+svg#play {
+    width:200px;
+    display:block;
+    cursor: pointer;
+    transform-origin: 50% 50%;
+    position: absolute;
+    overflow: visible;
+    top: -245px;
+    left: 50px;
+}
+
+svg#play #triangle {
+    fill:rgba(22,22,22,0);
+    transition:500ms;
+    transform-origin: 50% 50%;
+}
+svg#play:hover #triangle {
+    fill:#A3CD3A;
+    transform-origin: 50% 50%;
+}
+
+svg #lineOne, svg #lineTwo {
+    transform-origin: 50% 50%;
+    transition: 1s;
+}
+
+svg:hover #lineOne {
+    transform: rotate(260deg);
+    -webkit-transform: rotate(260deg);
+    -moz-transform: rotate(260deg);
+    -o-transform: rotate(260deg);
+    transform-origin: 50% 50%;
+}
+
+svg:hover #lineTwo {
+    transform: rotate(-450deg);
+    transform-origin: 50% 50%;
+}
+
 
 
 /*******************************************************************************
