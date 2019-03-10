@@ -1,11 +1,30 @@
 # 🎮 HitKlack on Korge
 
-Let's port my [HitKlack](https://github.com/TobseF/HitKlack) game from [LibGDX](https://libgdx.badlogicgames.com/) to [Korge](https://korge.soywiz.com/) engine.
 
-Setup is bases on the [korge-hello-world template](https://github.com/korlibs/korge-hello-world).
+![Screenshot](https://tobsef.github.io/HitKlack/images/readme/screenshot_device.jpg)
 
+
+### [🌍 Website](https://tobsef.github.io/HitKlack/)
+
+### [🕹 Instant Play - Web](https://tobsef.github.io/HitKlack/webstart/index.html)
+
+
+This is a work in progress game remake, just for fun.
+It's based on a German console, the Hit Klack from Mephisto. 
+It runs on multiple platforms: Android, IOs, Windows, Linux, Mac and Web. 
+For me it's a way to test the latest features of [Kotlin 1.3](https://kotlinlang.org/).
+It uses the [Korge](https://korge.soywiz.com/) - Modern Multiplatform Game Engine for Kotlin.
+
+You can find my older version based on the [LibGDX](https://libgdx.badlogicgames.com/) framework [here](https://github.com/TobseF/HitKlack_LibGDX).
+
+
+# Build & Run
+
+To build and run you need at least **Gradle 5.1**: 
 
 For Windows, change all the `./gradlew` for `gradlew.bat`.
+
+The inital setup is bases on the [korge-hello-world template](https://github.com/korlibs/korge-hello-world).
 
 ## Compiling for the JVM (Desktop)
 
