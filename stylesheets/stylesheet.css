@@ -317,7 +317,7 @@ Full-Width Styles
 
 #downloads {
   position: absolute;
-  width: 210px;
+  width: 310px;
   z-index: 10;
   bottom: -40px;
   right: 0;
@@ -332,7 +332,7 @@ Full-Width Styles
   height:70px;
   text-indent: -5000px;
   overflow: hidden;
-  background: url(../images/sprite_download.png) no-repeat bottom left;
+  background: url(../images/sprite_download_3.png) no-repeat bottom left;
 }
 
 .apk_download_link {
@@ -342,16 +342,32 @@ Full-Width Styles
   height:70px;
   text-indent: -5000px;
   overflow: hidden;
-  background: url(../images/sprite_download.png) no-repeat bottom right;
+  background: url(../images/sprite_download_3.png) no-repeat bottom center;
   margin-left: 10px;
 }
 
+.exe_download_link {
+    display: block;
+    float: right;
+    width: 90px;
+    height:70px;
+    text-indent: -5000px;
+    overflow: hidden;
+    background: url(../images/sprite_download_3.png) no-repeat bottom right;
+    margin-left: 10px;
+}
+
+.exe_download_link:hover {
+    background: url(../images/sprite_download_3.png) no-repeat top right;
+}
+
+
 .zip_download_link:hover {
-  background: url(../images/sprite_download.png) no-repeat top left;
+  background: url(../images/sprite_download_3.png) no-repeat top left;
 }
 
 .apk_download_link:hover {
-  background: url(../images/sprite_download.png) no-repeat top right;
+  background: url(../images/sprite_download_3.png) no-repeat top center;
 }
 
 #main_content_wrap {
@@ -369,7 +385,7 @@ Full-Width Styles
 }
 
 #instant-play{
-    background: url(../images/sprite_download.png) no-repeat top right;
+    background: url(../images/sprite_download_3.png) no-repeat top right;
 }
 
 .play-button{
