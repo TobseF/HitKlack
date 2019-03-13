@@ -16,6 +16,7 @@ import de.tfr.game.ui.BLACK
 import de.tfr.game.ui.GREEN_LIGHT
 import de.tfr.game.ui.GREEN_LIGHT2
 import de.tfr.game.util.extensions.drawFill
+import de.tfr.game.util.extensions.square
 import de.tfr.game.util.extensions.startFill
 
 
@@ -68,7 +69,7 @@ class GameFieldRenderer(point: Point, val field: GameField) : Point by point, Lo
     private fun renderBackground(fieldSize: Int, renderer: Graphics) {
         renderer.startFill(GREEN_LIGHT)
         val radius = getFieldSize(fieldSize)
-        renderer.rect(x - radius, y - radius, radius * 2, radius * 2)
+        renderer.square(shift(-radius), radius * 2)
         renderer.endFill()
     }
 

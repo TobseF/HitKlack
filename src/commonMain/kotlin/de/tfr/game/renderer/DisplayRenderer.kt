@@ -19,35 +19,32 @@ private val log = Logger("DisplayRenderer")
 
 class DisplayRenderer(val display: Display) : Loadable {
 
+    lateinit var graphics: Graphics
     lateinit var font: BitmapFont
     var text: Text? = null
 
+
     override suspend fun create(container: Container) {
+        graphics = container.graphics()
         font = resourcesVfs["fonts/segment7.fnt"].readBitmapFont()
+
+        graphics.solidRect(display.width, display.height, GREEN_LIGHT) {
+            position(display.borderLeftX(), display.y + 500)
+        }
+
+        graphics.timeText("88:88", GREEN_LIGHT2)
+
+        text = graphics.timeText(display.getText(), GRAY_DARK)
     }
 
     fun Graphics.timeText(text: String, color: RGBA = Colors.WHITE): Text {
-        return this.text(text, display.x - display.width / 2 + 5, display.y + 506, font, 92.0, color)
+        return this.text(text, display.borderLeftX() + 5, display.y + 506, font, 92.0, color)
     }
 
-    var init = false
-    fun render(renderer: Graphics) {
-        if (!init) {
-            init = true
-
-            renderer.solidRect(display.width, display.height, GREEN_LIGHT) {
-                position(display.x - display.width / 2, display.y + 500)
-            }
-
-            renderer.timeText("88:88", GREEN_LIGHT2)
-
-            text = renderer.timeText(display.getText(), GRAY_DARK)
-
-        } else {
-            val newTime = display.getText()
-            log.info { newTime }
-            text?.setText(newTime)
-        }
+    fun render() {
+        val newTime = display.getText()
+        log.info { newTime }
+        text?.setText(newTime)
     }
 
 }

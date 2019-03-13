@@ -2,9 +2,14 @@ package de.tfr.game.lib.actor
 
 
 interface Box : Point {
-    var width: Float
-    var height: Float
+    var width: Double
+    var height: Double
 
-    fun center() = Point2D(width / 2.0, height / 2.0)
+    fun center() = Point2D(widthHalf(), heightHalf())
 
+    fun widthHalf() = width / 2
+    fun heightHalf() = height / 2
+
+    fun borderLeftX() = x - widthHalf()
+    fun borderRightX() = x + widthHalf()
 }
