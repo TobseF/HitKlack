@@ -20,13 +20,11 @@ import de.tfr.game.util.extensions.square
 import de.tfr.game.util.extensions.startFill
 
 
-class GameFieldRenderer(point: Point, val field: GameField) : Point by point, Loadable {
+class GameFieldRenderer(point: Point, private val field: GameField) : Point by point, Loadable {
 
     private val gap = 6
     private val blockWith = 18.0
     private val radius = 8f
-    private fun thisX() = x
-    private fun thisY() = y
 
     override suspend fun create(container: Container) {
         createBackground(container)
@@ -81,11 +79,13 @@ class GameFieldRenderer(point: Point, val field: GameField) : Point by point, Lo
 
     private fun Graphics.renderBlock(block: Block) {
         val distance = gap + blockWith + (block.row * (gap + blockWith))
+        val x = this@GameFieldRenderer.x
+        val y = this@GameFieldRenderer.y
         when (block.orientation) {
-            Orientation.Left -> renderBlock(block, thisX() - distance, thisY())
-            Orientation.Right -> renderBlock(block, thisX() + distance, thisY())
-            Orientation.Down -> renderBlock(block, thisX(), thisY() + distance)
-            Orientation.Up -> renderBlock(block, thisX(), thisY() - distance)
+            Orientation.Left -> renderBlock(block, x - distance, y)
+            Orientation.Right -> renderBlock(block, x + distance, y)
+            Orientation.Down -> renderBlock(block, x, y + distance)
+            Orientation.Up -> renderBlock(block, x, y - distance)
         }
     }
 
