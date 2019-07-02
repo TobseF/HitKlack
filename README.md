@@ -18,7 +18,7 @@ It uses the [KorGE](https://korge.soywiz.com/) - Modern Multiplatform Game Engin
 You can find my older version based on the [LibGDX](https://libgdx.badlogicgames.com/) framework [here](https://github.com/TobseF/HitKlack_LibGDX).
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
-
+[![Kotlin Native](https://img.shields.io/badge/Kotlin_Native-1.3.21-blue.svg)](http://kotlinlang.org)
 
 # Build & Run
 
