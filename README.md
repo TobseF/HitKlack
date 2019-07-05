@@ -4,7 +4,7 @@
 ![Screenshot](https://tobsef.github.io/HitKlack/images/readme/screenshot_device.jpg)
 
 
-### [🌍 Website](https://tobsef.github.io/HitKlack/)
+### [🌍 Official Website](https://tobsef.github.io/HitKlack/)
 
 ### [🕹 Instant Play - Web](https://tobsef.github.io/HitKlack/webstart/index.html)
 
@@ -22,9 +22,12 @@ You can find my older version based on the [LibGDX](https://libgdx.badlogicgames
 
 # Build & Run
 
-To build and run you need at least **Gradle 5.1**: 
+To build and run you need at least **Gradle 5.1**:
 
-For Windows, change all the `./gradlew` for `gradlew.bat`.
+Check that Gradle is running with a `1.8 JVM`:   
+In IntelliJ _Settings/Build, Execution, Deployment > Build Tools/Gradle > **Gradle JVM**_
+
+For _Windows_, change all the `./gradlew` for `gradlew.bat`.
 
 The inital setup is bases on the [korge-hello-world template](https://github.com/korlibs/korge-hello-world).
 
