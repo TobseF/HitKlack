@@ -401,9 +401,9 @@ svg#play {
     display:block;
     cursor: pointer;
     transform-origin: 50% 50%;
-    position: absolute;
+    position: relative;
     overflow: visible;
-    top: -245px;
+    top: -265px;
     left: 50px;
 }
 
