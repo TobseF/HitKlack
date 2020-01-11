@@ -3,7 +3,9 @@ package de.tfr.game
 
 import com.soywiz.klogger.Logger
 import com.soywiz.korge.component.UpdateComponent
+import com.soywiz.korge.service.vibration.NativeVibration
 import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.Stage
 import com.soywiz.korge.view.View
 import de.tfr.game.lib.actor.Box2D
 import de.tfr.game.lib.engine.Loadable
@@ -15,7 +17,7 @@ import resolution
 
 private val log = Logger("HitKlack")
 
-class HitKlack(override val view: View) : UpdateComponent, Loadable {
+class HitKlack(override val view: Stage) : UpdateComponent, Loadable {
 
     private lateinit var renderer: GameFieldRenderer
     private lateinit var controller: Controller
