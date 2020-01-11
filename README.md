@@ -19,6 +19,7 @@ You can find my older version based on the [LibGDX](https://libgdx.badlogicgames
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
 [![Kotlin Native](https://img.shields.io/badge/Kotlin_Native-1.3.21-blue.svg)](http://kotlinlang.org)
+[![Kotlin Native](https://img.shields.io/badge/KorGE-1.5.1-816BA9.svg)](https://korge.soywiz.com/)
 
 # Build & Run
 
