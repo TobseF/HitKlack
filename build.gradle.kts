@@ -10,7 +10,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.soywiz.korlibs.korge.plugins:korge-gradle-plugin:1.5.0d")
+        classpath("com.soywiz.korlibs.korge.plugins:korge-gradle-plugin:1.5.4.1")
     }
 }
 
@@ -26,6 +26,6 @@ korge {
 
     exeBaseName = "HitKlack"
     icon = File("build-res/icon.png")
-
+    supportVibration()
     orientation = Orientation.PORTRAIT
 }
