@@ -1,14 +1,13 @@
 package de.tfr.game
 
-import com.soywiz.klock.TimeSpan
 import com.soywiz.klock.milliseconds
+import com.soywiz.klogger.Logger
 import com.soywiz.korev.Key
 import com.soywiz.korev.KeyEvent
 import com.soywiz.korge.component.KeyComponent
 import com.soywiz.korge.service.vibration.NativeVibration
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.Stage
-import com.soywiz.korge.view.View
 import com.soywiz.korge.view.Views
 import de.tfr.game.Controller.Control.*
 import de.tfr.game.lib.actor.Point
@@ -17,7 +16,6 @@ import de.tfr.game.lib.engine.Loadable
 import de.tfr.game.renderer.ButtonTiles
 import de.tfr.game.renderer.ButtonTiles.Style
 import de.tfr.game.ui.Button
-
 
 class Controller(point: Point, val gameRadius: Double, override val view: Stage) : KeyComponent,
         Point by point,
@@ -36,7 +34,10 @@ class Controller(point: Point, val gameRadius: Double, override val view: Stage)
 
     private fun Container.addButton(button: Button): Button {
         button.create(this)
-        button.clickListener = { notifyListener(button.control) }
+        button.clickListener = {
+            doHapticFeedback()
+            notifyListener(button.control)
+        }
         return button
     }
 
@@ -47,7 +48,6 @@ class Controller(point: Point, val gameRadius: Double, override val view: Stage)
     lateinit var vibration: NativeVibration
 
     private val distance = 90f
-    private val vibrateTime = 26.milliseconds
 
     private val touchListeners: MutableCollection<ControlListener> = ArrayList()
 
@@ -64,7 +64,9 @@ class Controller(point: Point, val gameRadius: Double, override val view: Stage)
         doHapticFeedback()
     }
 
-    private fun doHapticFeedback() = vibration.vibrate(arrayOf(vibrateTime))
+    private fun doHapticFeedback() {
+        vibration.vibrate(60.milliseconds,0.12)
+    }
 
     fun addTouchListener(touchListener: ControlListener) = touchListeners.add(touchListener)
 
