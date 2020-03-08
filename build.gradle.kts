@@ -3,6 +3,8 @@ import com.soywiz.korge.gradle.Orientation
 import com.soywiz.korge.gradle.korge
 
 buildscript {
+    val korgePluginVersion = "1.10.0.0"
+
     repositories {
         mavenLocal()
         maven { url = uri("https://dl.bintray.com/korlibs/korlibs") }
@@ -10,7 +12,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.soywiz.korlibs.korge.plugins:korge-gradle-plugin:1.5.6.0")
+        classpath("com.soywiz.korlibs.korge.plugins:korge-gradle-plugin:$korgePluginVersion")
     }
 }
 
@@ -28,6 +30,4 @@ korge {
     icon = File("build-res/icon.png")
 
     orientation = Orientation.PORTRAIT
-
-    //dependencyMulti("com.soywiz:korau-mp3:$korauVersion")
 }

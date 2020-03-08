@@ -1,5 +1,7 @@
 # 🎮 HitKlack on KorGE
-
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.3.70-blue.svg?style=flat&logo=kotlin&logoColor=white)](http://kotlinlang.org)
+[![Korge](https://img.shields.io/badge/Korge-1.10.0.0-836DAC.svg)](https://korge.soywiz.com/)
+[![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
 
 ![Screenshot](https://tobsef.github.io/HitKlack/images/readme/screenshot_device.jpg)
 
@@ -16,9 +18,6 @@ For me it's a way to test the latest features of [Kotlin 1.3](https://kotlinlang
 It uses the [KorGE](https://korge.soywiz.com/) - Modern Multiplatform Game Engine for Kotlin.
 
 You can find my older version based on the [LibGDX](https://libgdx.badlogicgames.com/) framework [here](https://github.com/TobseF/HitKlack_LibGDX).
-
-[![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
-[![Kotlin Native](https://img.shields.io/badge/Kotlin_Native-1.3.61-blue.svg)](http://kotlinlang.org)
 
 # Build & Run
 
