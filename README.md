@@ -18,11 +18,11 @@ It uses the [KorGE](https://korge.soywiz.com/) - Modern Multiplatform Game Engin
 You can find my older version based on the [LibGDX](https://libgdx.badlogicgames.com/) framework [here](https://github.com/TobseF/HitKlack_LibGDX).
 
 [![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
-[![Kotlin Native](https://img.shields.io/badge/Kotlin_Native-1.3.21-blue.svg)](http://kotlinlang.org)
+[![Kotlin Native](https://img.shields.io/badge/Kotlin_Native-1.3.61-blue.svg)](http://kotlinlang.org)
 
 # Build & Run
 
-To build and run you need at least **Gradle 5.1**:
+To build and run you need at least **Gradle 5.5**:
 
 Check that Gradle is running with a `1.8 JVM`:   
 In IntelliJ _Settings/Build, Execution, Deployment > Build Tools/Gradle > **Gradle JVM**_
@@ -139,7 +139,7 @@ delegates gradle tasks to that gradle project.
 
 ## Compiling for iOS
 
-You will need XCode and to download the iOS SDKs using Xcode.
+You will need XCode (minimal spport version 11.0) and to download the iOS SDKs using Xcode.
 
 Using gradle tasks on the terminal:
 
