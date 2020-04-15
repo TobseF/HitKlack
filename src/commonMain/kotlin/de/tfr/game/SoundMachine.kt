@@ -2,6 +2,7 @@ package de.tfr.game
 
 import com.soywiz.korau.sound.NativeSound
 import com.soywiz.korau.sound.readNativeSound
+import com.soywiz.korau.sound.readSound
 import com.soywiz.korge.view.Container
 import com.soywiz.korio.file.std.resourcesVfs
 import de.tfr.game.lib.engine.Loadable
@@ -15,7 +16,7 @@ class SoundMachine : Loadable {
     private var line_missed: NativeSound? = null
     private var line_ok: NativeSound? = null
 
-    private suspend fun newSound(fileName: String) = resourcesVfs["sounds/$fileName"].readNativeSound()
+    private suspend fun newSound(fileName: String) = resourcesVfs["sounds/$fileName"].readSound()
 
     override suspend fun create(container: Container) {
         circle_ok = newSound("circle_ok.mp3")

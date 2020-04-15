@@ -8,6 +8,7 @@ import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.font.BitmapFont
 import com.soywiz.korim.vector.Context2d
+import com.soywiz.korim.vector.paint.ColorPaint
 import com.soywiz.korma.geom.vector.VectorPath
 import com.soywiz.korma.geom.vector.circle
 
@@ -20,7 +21,7 @@ fun Graphics.path(path: (VectorPath) -> Unit = {}) {
 }
 
 fun Graphics.startFill(color: RGBA) {
-    this.beginFill(Context2d.Color(color))
+    this.beginFill(ColorPaint(color))
 }
 
 fun Graphics.drawFill(color: RGBA, renderAction: (Graphics) -> Any) {
