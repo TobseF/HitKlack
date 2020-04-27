@@ -3,7 +3,7 @@ import com.soywiz.korge.gradle.Orientation
 import com.soywiz.korge.gradle.korge
 
 buildscript {
-    val korgePluginVersion = "1.12.0.2"
+    val korgePluginVersion = "1.12.2.0"
 
     repositories {
         mavenLocal()

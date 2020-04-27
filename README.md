@@ -1,6 +1,6 @@
 # 🎮 HitKlack on KorGE
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.3.70-blue.svg?style=flat&logo=kotlin&logoColor=white)](http://kotlinlang.org)
-[![Korge](https://img.shields.io/badge/Korge-1.12.0.2-836DAC.svg)](https://korge.soywiz.com/)
+[![Korge](https://img.shields.io/badge/Korge-1.12.2.0-836DAC.svg)](https://korge.soywiz.com/)
 [![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
 
 ![Screenshot](https://tobsef.github.io/HitKlack/images/readme/screenshot_device.jpg)
