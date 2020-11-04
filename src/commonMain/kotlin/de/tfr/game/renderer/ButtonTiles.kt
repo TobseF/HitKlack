@@ -20,7 +20,7 @@ class ButtonTiles : Loadable {
         val texture = container.image(resourcesVfs["images/buttons.png"].readBitmap()) {
             visible = false
         }
-        buttons = TileSet(texture.texture as BitmapSlice<Bitmap>, 120, 120)
+        buttons = TileSet(texture.bitmap as BitmapSlice<Bitmap>, 120, 120)
     }
 
     fun get(style: Style) = when (style) {

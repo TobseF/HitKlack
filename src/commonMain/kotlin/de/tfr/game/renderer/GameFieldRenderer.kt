@@ -17,14 +17,13 @@ import de.tfr.game.ui.GREEN_LIGHT
 import de.tfr.game.ui.GREEN_LIGHT2
 import de.tfr.game.util.extensions.drawFill
 import de.tfr.game.util.extensions.square
-import de.tfr.game.util.extensions.startFill
 
 
 class GameFieldRenderer(point: Point, private val field: GameField) : Point by point, Loadable {
 
     private val gap = 6
     private val blockWith = 18.0
-    private val radius = 8f
+    private val radius = 8.0
 
     override suspend fun create(container: Container) {
         createBackground(container)
@@ -39,13 +38,15 @@ class GameFieldRenderer(point: Point, private val field: GameField) : Point by p
                 val blockI = block.orientation
                 val field = GameField(field.size)
                 field.setActive()
-                val cacheImage = container.graphics()
-                val newBlock = field[ringI][blockI]
-                newBlock.state = Block.State.Full
-                newBlock.active = false
-                cacheImage.renderField(field)
-                cacheImage.visible = false
-                block.image = cacheImage
+                field[ringI][blockI].apply {
+                    state = Block.State.Full
+                    active = false
+                }
+                container.graphics {
+                    visible = false
+                    renderField(field)
+                    block.image = this
+                }
             }
         }
     }
@@ -60,12 +61,12 @@ class GameFieldRenderer(point: Point, private val field: GameField) : Point by p
         background.renderField(emptyField)
     }
 
-    fun Graphics.renderField(gameField: GameField) {
+    private fun Graphics.renderField(gameField: GameField) {
         gameField.forEach { this.renderRing(it) }
     }
 
     private fun renderBackground(fieldSize: Int, renderer: Graphics) {
-        renderer.startFill(GREEN_LIGHT)
+        renderer.beginFill(GREEN_LIGHT)
         val radius = getFieldSize(fieldSize)
         renderer.square(shift(-radius), radius * 2)
         renderer.endFill()
@@ -97,8 +98,8 @@ class GameFieldRenderer(point: Point, private val field: GameField) : Point by p
             return
         }
         when (block.state) {
-            Block.State.Empty -> this.startFill(GREEN_LIGHT2)
-            Block.State.Full -> this.startFill(BLACK)
+            Block.State.Empty -> this.beginFill(GREEN_LIGHT2)
+            Block.State.Full -> this.beginFill(BLACK)
         }
 
         when (block.orientation) {

@@ -1,22 +1,30 @@
 import com.soywiz.korge.gradle.GameCategory
+import com.soywiz.korge.gradle.KorgeGradlePlugin
 import com.soywiz.korge.gradle.Orientation
 import com.soywiz.korge.gradle.korge
 
 buildscript {
-    val korgePluginVersion = "1.12.2.0"
+    val korgePluginVersion: String by project
+
 
     repositories {
         mavenLocal()
         maven { url = uri("https://dl.bintray.com/korlibs/korlibs") }
         maven { url = uri("https://plugins.gradle.org/m2/") }
         mavenCentral()
+        google()
+        maven { url = uri("https://dl.bintray.com/kotlin/kotlin-dev") }
+        maven { url = uri("https://dl.bintray.com/kotlin/kotlin-eap") }
+
     }
     dependencies {
+
         classpath("com.soywiz.korlibs.korge.plugins:korge-gradle-plugin:$korgePluginVersion")
     }
 }
 
-apply(plugin = "korge")
+
+apply<KorgeGradlePlugin>()
 
 korge {
     id = "de.tfr.game.hitclack"

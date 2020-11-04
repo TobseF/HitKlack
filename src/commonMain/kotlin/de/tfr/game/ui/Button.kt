@@ -1,9 +1,8 @@
 package de.tfr.game.ui
 
 import com.soywiz.korev.KeyEvent
+import com.soywiz.korge.input.keys
 import com.soywiz.korge.input.onDown
-import com.soywiz.korge.input.onKeyDown
-import com.soywiz.korge.input.onKeyUp
 import com.soywiz.korge.input.onUp
 import com.soywiz.korge.view.*
 import de.tfr.game.Controller
@@ -28,21 +27,27 @@ class Button(val control: Controller.Control,
             position(posX, posY)
             anchor(.5, .5)
         }
-
-        image.onKeyDown { ifControlPressed(it) { setDown() } }
-        image.onKeyUp { ifControlPressed(it) { setUp() } }
+        image.onDown { }
         image.onUp { setUp() }
         image.onDown { setDown() }
+        image.keys {
+            down {
+                ifControlPressed(it) { setDown() }
+            }
+            up {
+                ifControlPressed(it) { setUp() }
+            }
+        }
         return this
     }
 
     private fun setDown() {
         clickListener?.invoke()
-        image.texture = style.pressed
+        image.bitmap = style.pressed
     }
 
     private fun setUp() {
-        image.texture = style.normal
+        image.bitmap = style.normal
     }
 
     private fun ifControlPressed(e: KeyEvent, action: () -> Any) {

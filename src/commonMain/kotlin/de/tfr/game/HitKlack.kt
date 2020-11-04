@@ -1,6 +1,7 @@
 package de.tfr.game
 
 
+import com.soywiz.klock.TimeSpan
 import com.soywiz.klogger.Logger
 import com.soywiz.korge.component.UpdateComponent
 import com.soywiz.korge.view.Container
@@ -43,8 +44,8 @@ class HitKlack(override val view: View) : UpdateComponent, Loadable {
         logo.create(container)
     }
 
-    override fun update(ms: Double) {
-        val deltaTime = ms / 1000
+    override fun update(dt: TimeSpan) {
+        val deltaTime = dt.seconds
         log.debug { "time$deltaTime" }
         game.update(deltaTime)
         displayRenderer.render()

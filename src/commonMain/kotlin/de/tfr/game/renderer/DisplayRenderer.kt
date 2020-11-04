@@ -25,26 +25,25 @@ class DisplayRenderer(val display: Display) : Loadable {
 
 
     override suspend fun create(container: Container) {
-        graphics = container.graphics()
         font = resourcesVfs["fonts/segment7.fnt"].readBitmapFont()
 
-        graphics.solidRect(display.width, display.height, GREEN_LIGHT) {
+        container.solidRect(display.width, display.height, GREEN_LIGHT) {
             position(display.borderLeftX(), display.y + 500)
         }
 
-        graphics.timeText("88:88", GREEN_LIGHT2)
+        container.timeText("00:22", GREEN_LIGHT2)
 
-        text = graphics.timeText(display.getText(), GRAY_DARK)
+        text = container.timeText(display.getText(), GRAY_DARK)
     }
 
-    fun Graphics.timeText(text: String, color: RGBA = Colors.WHITE): Text {
+    private fun Container.timeText(text: String, color: RGBA = Colors.WHITE): Text {
         return this.text(text, display.borderLeftX() + 5, display.y + 506, font, 92.0, color)
     }
 
     fun render() {
         val newTime = display.getText()
         log.info { newTime }
-        text?.setText(newTime)
+        text?.text = newTime
     }
 
 }

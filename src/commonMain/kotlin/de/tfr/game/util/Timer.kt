@@ -1,7 +1,7 @@
 package de.tfr.game.util
 
 
-class Timer(var actionTime: Double, val timerAction: () -> Unit) : Time {
+class Timer(var actionTime: Double, private val timerAction: () -> Unit) : Time {
 
     override var time = 0.0
     private var pause = false

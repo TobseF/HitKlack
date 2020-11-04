@@ -16,7 +16,7 @@ import de.tfr.game.renderer.ButtonTiles.Style
 import de.tfr.game.ui.Button
 
 
-class Controller(point: Point, val gameRadius: Double, override val view: View) : KeyComponent,
+class Controller(point: Point, private val gameRadius: Double, override val view: View) : KeyComponent,
         Point by point,
         Loadable {
 
@@ -52,9 +52,10 @@ class Controller(point: Point, val gameRadius: Double, override val view: View) 
         fun controlEvent(control: Control)
     }
 
-    override fun onKeyEvent(views: Views, event: KeyEvent) {
+
+    override fun Views.onKeyEvent(event: KeyEvent) {
         if (event.type == KeyEvent.Type.DOWN) {
-            event.key.toControl()?.let(this::notifyListener)
+            event.key.toControl()?.let { notifyListener(it) }
         }
         doHapticFeedback()
     }

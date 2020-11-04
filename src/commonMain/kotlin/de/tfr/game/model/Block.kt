@@ -1,10 +1,10 @@
 package de.tfr.game.model
 
-import com.soywiz.korge.view.Image
+import com.soywiz.korge.view.Graphics
 
 class Block(val ring: Ring, val orientation: Orientation) {
     val row = ring.index
-    var image: Image? = null
+    var image: Graphics? = null
 
     enum class State { Full, Empty }
 

@@ -1,16 +1,14 @@
 package de.tfr.game.util.extensions
 
-import com.soywiz.korge.view.Fonts
+import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.Graphics
 import com.soywiz.korge.view.Text
 import com.soywiz.korge.view.position
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
-import com.soywiz.korim.font.BitmapFont
-import com.soywiz.korim.vector.Context2d
-import com.soywiz.korim.vector.paint.ColorPaint
+import com.soywiz.korim.font.Font
+import com.soywiz.korim.font.SystemFontRegistry
 import com.soywiz.korma.geom.vector.VectorPath
-import com.soywiz.korma.geom.vector.circle
 
 fun Graphics.circle(x: Number, y: Number, radius: Number) {
     this.path { circle(x, y, radius) }
@@ -20,22 +18,20 @@ fun Graphics.path(path: (VectorPath) -> Unit = {}) {
     this.shape(VectorPath().apply(path))
 }
 
-fun Graphics.startFill(color: RGBA) {
-    this.beginFill(ColorPaint(color))
-}
 
 fun Graphics.drawFill(color: RGBA, renderAction: (Graphics) -> Any) {
-    this.startFill(color)
+    this.beginFill(color)
     renderAction.invoke(this)
     this.endFill()
 }
 
-fun Graphics.text(text: String,
-        x: Number,
-        y: Number,
-        font: BitmapFont = Fonts.defaultFont,
+fun Container.text(text: String,
+        x: Double,
+        y: Double,
+        font: Font = SystemFontRegistry.DEFAULT_FONT,
         textSize: Double,
         color: RGBA = Colors.WHITE): Text {
+
     return text(text, textSize, font = font, color = color) {
         position(x, y)
     }
