@@ -38,4 +38,18 @@ korge {
     icon = File("build-res/icon.png")
 
     orientation = Orientation.PORTRAIT
+
+    // To enable all targets at once
+    //targetAll()
+
+    // To enable targets based on properties/environment variables
+    //targetDefault()
+
+    // To selectively enable targets
+
+    targetJvm()
+    targetJs()
+    targetDesktop()
+    targetAndroidIndirect() // targetAndroidDirect()
+    //targetIos()
 }
