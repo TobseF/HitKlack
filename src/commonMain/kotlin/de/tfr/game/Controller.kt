@@ -32,6 +32,7 @@ class Controller(point: Point, private val gameRadius: Double, override val view
 
     private fun Container.addButton(button: Button): Button {
         button.create(this)
+        button.clickListener = { notifyListener(button.control) }
         return button
     }
 

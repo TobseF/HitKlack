@@ -2,6 +2,7 @@ package de.tfr.game.ui
 
 import com.soywiz.korev.KeyEvent
 import com.soywiz.korge.input.keys
+import com.soywiz.korge.input.onClick
 import com.soywiz.korge.input.onDown
 import com.soywiz.korge.input.onUp
 import com.soywiz.korge.view.*
@@ -38,11 +39,13 @@ class Button(val control: Controller.Control,
                 ifControlPressed(it) { setUp() }
             }
         }
+        image.onClick {
+            clickListener?.invoke()
+        }
         return this
     }
 
     private fun setDown() {
-        clickListener?.invoke()
         image.bitmap = style.pressed
     }
 
