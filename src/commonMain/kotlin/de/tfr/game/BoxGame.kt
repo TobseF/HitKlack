@@ -1,5 +1,6 @@
 package de.tfr.game
 
+import com.soywiz.klogger.Logger
 import com.soywiz.korge.view.Container
 import de.tfr.game.Controller.Control
 import de.tfr.game.lib.engine.Loadable
@@ -8,10 +9,12 @@ import de.tfr.game.model.GameField
 import de.tfr.game.model.Orientation
 import de.tfr.game.model.Ring
 import de.tfr.game.util.Timer
-import debug
 
 
-class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
+class BoxGame(private val field: GameField, startOrientation: Orientation = Orientation.Left) :
+    Controller.ControlListener, Loadable {
+
+    private val log = Logger<BoxGame>()
 
     private var cursor: Block
     private var activeRing: Ring? = null
@@ -20,8 +23,13 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     private val firstPause = 0.7
     private val sounds = SoundMachine()
 
+    /**
+     * Only for testing
+     */
+    var nextDirection: Orientation? = null
+
     init {
-        cursor = field[field.size - 1][Orientation.Left]
+        cursor = field.firstRing()[startOrientation]
         cursor.active = true
         timer = Timer(firstPause, this::doStep)
     }
@@ -39,7 +47,8 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
         move(cursor)
     }
 
-    override fun controlEvent(control: Controller.Control) {
+    override fun controlEvent(control: Control) {
+        log.debug { "Input: $control" }
         when (control) {
             Control.Left, Control.Right, Control.Top, Control.Bottom -> {
                 if (cursor.orientation.toControl() == control) {
@@ -47,16 +56,14 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
                 }
             }
             Control.Action -> {
-                if (debug) {
-                    move()
-                }
+                move()
             }
             Control.Esc -> reset()
             Control.Pause -> timer.togglePause()
         }
     }
 
-    private fun Orientation.toControl(): Controller.Control = when (this) {
+    private fun Orientation.toControl(): Control = when (this) {
         Orientation.Left -> Control.Left
         Orientation.Right -> Control.Right
         Orientation.Up -> Control.Top
@@ -64,9 +71,7 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     }
 
     fun update(deltaTime: Double) {
-        if (!debug) {
-            timer.update(deltaTime)
-        }
+        timer.update(deltaTime)
     }
 
     private fun reset() {
@@ -77,7 +82,8 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     }
 
     fun respawnBlock(orientation: Orientation) {
-        cursor = field[field.size - 1][orientation]
+        log.debug { "respawnBlock: $orientation" }
+        cursor = field.firstRing()[orientation]
         cursor.active = true
         timer.reset()
         timer.actionTime = firstPause
@@ -85,7 +91,7 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
 
     fun respawnBlock() = respawnBlock(randomFreeOrientation())
 
-    private fun randomFreeOrientation() = activeRing?.randomFreeSide() ?: Orientation.random()
+    private fun randomFreeOrientation() = nextDirection ?: (activeRing?.randomFreeSide() ?: Orientation.random())
 
     private fun move(block: Block) {
         if (block.isInLastRow()) {
@@ -112,6 +118,7 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     private fun setBlock(block: Block) {
         block.active = false
         block.setFull()
+        log.debug { "setBlock: $block\n$this" }
         if (activeRing != null) {
             if (activeRing!!.isFull()) {
                 sounds.playCircleOK()
@@ -131,7 +138,11 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     private fun misstep() {
         sounds.playLineMissed()
         resetRing()
+        log.debug { "resetCursor: $cursor" }
         cursor.reset()
+        if (!field.firstRing().isEmpty()) {
+            log.warn { this.toString() }
+        }
     }
 
     private fun resetRing() {
@@ -147,6 +158,6 @@ class BoxGame(val field: GameField) : Controller.ControlListener, Loadable {
     }
 
     override fun toString(): String {
-        return "Active: $cursor\n$field\n"
+        return "Cursor: $cursor\nActive: $activeRing\n$field\n"
     }
 }

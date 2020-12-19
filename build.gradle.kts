@@ -26,7 +26,7 @@ buildscript {
 apply<KorgeGradlePlugin>()
 
 korge {
-    id = "de.tfr.game.hitclack"
+    id = "de.tfr.game.hitklack"
 
     name = "Hit Klack"
     authorName = "TobseF"

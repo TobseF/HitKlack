@@ -32,7 +32,6 @@ class Controller(point: Point, private val gameRadius: Double, override val view
 
     private fun Container.addButton(button: Button): Button {
         button.create(this)
-        button.clickListener = { notifyListener(button.control) }
         return button
     }
 
@@ -55,7 +54,7 @@ class Controller(point: Point, private val gameRadius: Double, override val view
 
     override fun Views.onKeyEvent(event: KeyEvent) {
         if (event.type == KeyEvent.Type.DOWN) {
-            event.key.toControl()?.let { notifyListener(it) }
+            event.key.toControl()?.let(::notifyListener)
         }
         doHapticFeedback()
     }

@@ -11,6 +11,7 @@ class GameField(var size: Int) : Iterable<Ring> {
 
     fun reset() = rings.forEach { it.reset() }
 
+    fun firstRing() = this[size - 1]
 
     override fun toString() = rings.joinToString("\n")
 

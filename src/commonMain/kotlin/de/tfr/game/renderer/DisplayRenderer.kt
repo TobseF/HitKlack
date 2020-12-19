@@ -1,7 +1,10 @@
 package de.tfr.game.renderer
 
 import com.soywiz.klogger.Logger
-import com.soywiz.korge.view.*
+import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.Text
+import com.soywiz.korge.view.position
+import com.soywiz.korge.view.solidRect
 import com.soywiz.korim.color.Colors
 import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.font.BitmapFont
@@ -15,14 +18,11 @@ import de.tfr.game.ui.GREEN_LIGHT2
 import de.tfr.game.util.extensions.text
 
 
-private val log = Logger("DisplayRenderer")
+class DisplayRenderer(private val display: Display) : Loadable {
 
-class DisplayRenderer(val display: Display) : Loadable {
-
-    lateinit var graphics: Graphics
+    private val log = Logger<DisplayRenderer>()
     lateinit var font: BitmapFont
     var text: Text? = null
-
 
     override suspend fun create(container: Container) {
         font = resourcesVfs["fonts/segment7.fnt"].readBitmapFont()
@@ -42,7 +42,7 @@ class DisplayRenderer(val display: Display) : Loadable {
 
     fun render() {
         val newTime = display.getText()
-        log.info { newTime }
+        log.trace { newTime }
         text?.text = newTime
     }
 

@@ -5,39 +5,38 @@ import com.soywiz.korau.sound.readSound
 import com.soywiz.korge.view.Container
 import com.soywiz.korio.file.std.resourcesVfs
 import de.tfr.game.lib.engine.Loadable
-import debug
+import disableSound
 
 
 class SoundMachine : Loadable {
 
-
-    private var circle_ok: Sound? = null
-    private var line_missed: Sound? = null
-    private var line_ok: Sound? = null
+    private var circleOk: Sound? = null
+    private var lineMissed: Sound? = null
+    private var lineOk: Sound? = null
 
     private suspend fun newSound(fileName: String) = resourcesVfs["sounds/$fileName"].readSound()
 
     override suspend fun create(container: Container) {
-        circle_ok = newSound("circle_ok.mp3")
-        line_missed = newSound("line_missed.mp3")
-        line_ok = newSound("line_ok.mp3")
+        circleOk = newSound("circle_ok.mp3")
+        lineMissed = newSound("line_missed.mp3")
+        lineOk = newSound("line_ok.mp3")
     }
 
     fun playCircleOK() {
-        if (!debug) {
-            circle_ok?.play()
+        if (!disableSound) {
+            circleOk?.play()
         }
     }
 
     fun playLineMissed() {
-        if (!debug) {
-            line_missed?.play()
+        if (!disableSound) {
+            lineMissed?.play()
         }
     }
 
     fun playLineOK() {
-        if (!debug) {
-            line_ok?.play()
+        if (!disableSound) {
+            lineOk?.play()
         }
     }
 
