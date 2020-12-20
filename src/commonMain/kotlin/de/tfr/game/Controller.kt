@@ -1,16 +1,18 @@
 package de.tfr.game
 
+import com.soywiz.klock.milliseconds
 import com.soywiz.korev.Key
 import com.soywiz.korev.KeyEvent
 import com.soywiz.korge.component.KeyComponent
+import com.soywiz.korge.service.vibration.NativeVibration
 import com.soywiz.korge.view.Container
 import com.soywiz.korge.view.View
 import com.soywiz.korge.view.Views
+import com.soywiz.korge.view.views
 import de.tfr.game.Controller.Control.*
 import de.tfr.game.lib.actor.Point
 import de.tfr.game.lib.actor.Point2D
 import de.tfr.game.lib.engine.Loadable
-import de.tfr.game.libgx.emu.Input
 import de.tfr.game.renderer.ButtonTiles
 import de.tfr.game.renderer.ButtonTiles.Style
 import de.tfr.game.ui.Button
@@ -28,11 +30,15 @@ class Controller(point: Point, private val gameRadius: Double, override val view
         right = container.addButton(Button(Right, center.shiftRight(shift), tiles.get(Style.Blue), view))
         bottom = container.addButton(Button(Bottom, center.shiftBottom(shift), tiles.get(Style.Yellow), view))
         left = container.addButton(Button(Left, center.shiftLeft(shift), tiles.get(Style.Red), view))
+        vibration = NativeVibration(views())
     }
 
     private fun Container.addButton(button: Button): Button {
         button.create(this)
-        button.clickListener = { notifyListener(button.control) }
+        button.clickListener = {
+            notifyListener(button.control)
+            doHapticFeedback()
+        }
         return button
     }
 
@@ -40,6 +46,7 @@ class Controller(point: Point, private val gameRadius: Double, override val view
     lateinit var right: Button
     lateinit var top: Button
     lateinit var bottom: Button
+    lateinit var vibration: NativeVibration
 
     private val distance = 90f
     private val vibrateTime = 26
@@ -60,7 +67,10 @@ class Controller(point: Point, private val gameRadius: Double, override val view
         doHapticFeedback()
     }
 
-    private fun doHapticFeedback() = Input.vibrate(vibrateTime)
+    private fun doHapticFeedback() {
+        vibration.vibrate(60.milliseconds, 0.12)
+    }
+
 
     fun addTouchListener(touchListener: ControlListener) = touchListeners.add(touchListener)
 

@@ -37,6 +37,8 @@ korge {
     icon = File("build-res/icon.png")
 
     orientation = Orientation.PORTRAIT
+    supportVibration()
+
 
     // To enable all targets at once
     //targetAll()
