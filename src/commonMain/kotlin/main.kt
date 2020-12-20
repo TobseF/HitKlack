@@ -10,7 +10,7 @@ const val disableSound = false
 
 suspend fun main() = Korge(title = "HitKlack", width = resolution.width, height = resolution.height, bgcolor = DEVICE) {
 
-    Logger.defaultLevel = Logger.Level.DEBUG
+    Logger.defaultLevel = Logger.Level.WARN // <- Change this for debugging
 
     val hitKlack = HitKlack(this).apply {
         create(stage)

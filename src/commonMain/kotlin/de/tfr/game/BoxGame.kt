@@ -51,8 +51,11 @@ class BoxGame(private val field: GameField, startOrientation: Orientation = Orie
         log.debug { "Input: $control" }
         when (control) {
             Control.Left, Control.Right, Control.Top, Control.Bottom -> {
-                if (cursor.orientation.toControl() == control) {
+                val currentOrientation = cursor.orientation.toControl()
+                if (currentOrientation == control) {
                     setBlock()
+                } else {
+                    log.debug { "Ignored wrong input. Cursor($currentOrientation) - Button($control)" }
                 }
             }
             Control.Action -> {
@@ -110,6 +113,8 @@ class BoxGame(private val field: GameField, startOrientation: Orientation = Orie
     fun setBlock() {
         if (cursor.isEmpty()) {
             setBlock(cursor)
+        } else {
+            log.debug { "Ignore set, because cursor is empty" }
         }
     }
 
