@@ -4,7 +4,8 @@ package de.tfr.game
 import com.soywiz.klock.TimeSpan
 import com.soywiz.korge.component.UpdateComponent
 import com.soywiz.korge.view.Container
-import com.soywiz.korge.view.View
+import com.soywiz.korge.view.Stage
+import de.tfr.game.audio.SoundMachine
 import de.tfr.game.lib.actor.Box2D
 import de.tfr.game.lib.engine.Loadable
 import de.tfr.game.model.GameField
@@ -13,7 +14,7 @@ import de.tfr.game.renderer.GameFieldRenderer
 import de.tfr.game.renderer.LogoRenderer
 import resolution
 
-class HitKlack(override val view: View) : UpdateComponent, Loadable {
+class HitKlack(override val view: Stage) : UpdateComponent, Loadable {
 
     private lateinit var renderer: GameFieldRenderer
     private lateinit var controller: Controller
@@ -27,7 +28,8 @@ class HitKlack(override val view: View) : UpdateComponent, Loadable {
     override suspend fun create(container: Container) {
         val center = resolution.getCenter()
         renderer = GameFieldRenderer(center, gameField).apply { create(container) }
-        game = BoxGame(gameField).apply { create(container) }
+        val soundMachine = SoundMachine(view.views);
+        game = BoxGame(gameField, sounds = soundMachine).apply { create(container) }
 
         val gameFieldSize = renderer.getFieldSize(gameField.size)
         controller = Controller(center, gameFieldSize, view)
