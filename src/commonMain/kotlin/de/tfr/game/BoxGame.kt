@@ -1,11 +1,9 @@
 package de.tfr.game
 
 import com.soywiz.klogger.Logger
-import com.soywiz.korge.view.Container
 import de.tfr.game.Controller.Control
 import de.tfr.game.audio.ISoundMachine
 import de.tfr.game.audio.NoSounds
-import de.tfr.game.lib.engine.Loadable
 import de.tfr.game.model.Block
 import de.tfr.game.model.GameField
 import de.tfr.game.model.Orientation
@@ -16,9 +14,9 @@ import de.tfr.game.util.Timer
 class BoxGame(
     private val field: GameField,
     startOrientation: Orientation = Orientation.Left,
-    val sounds: ISoundMachine = NoSounds(),
+    val sounds: ISoundMachine = NoSounds()
 ) :
-    Controller.ControlListener, Loadable {
+    Controller.ControlListener {
 
     private val log = Logger<BoxGame>()
 
@@ -37,10 +35,6 @@ class BoxGame(
         cursor = field.firstRing()[startOrientation]
         cursor.active = true
         timer = Timer(firstPause, this::doStep)
-    }
-
-    override suspend fun create(container: Container) {
-        sounds.create(container)
     }
 
     private fun doStep() {

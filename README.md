@@ -1,6 +1,6 @@
 # 🎮 HitKlack on KorGE
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.4.20-blue.svg?style=flat&logo=kotlin&logoColor=white)](http://kotlinlang.org)
-[![Korge](https://img.shields.io/badge/Korge-2.0.0.1-836DAC.svg)](https://korge.soywiz.com/)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.5.0-blue.svg?style=flat&logo=kotlin&logoColor=white)](http://kotlinlang.org)
+[![KorGE](https://img.shields.io/badge/KorGE-2.1.1.1-836DAC.svg)](https://korge.soywiz.com/)
 [![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
 
 ![Screenshot](https://tobsef.github.io/HitKlack/images/readme/screenshot_device.jpg)
@@ -12,7 +12,7 @@
 
 This is a work in progress game remake, just for fun. It's based on a German console, the Hit Klack from Mephisto. It
 runs on multiple platforms: Android, IOs, Windows, Linux, Mac and Web. For me it's a way to test the latest features
-of [Kotlin 1.4](https://kotlinlang.org/). It uses the [KorGE](https://korge.soywiz.com/) - Modern Multiplatform Game
+of [Kotlin 1.5](https://kotlinlang.org/). It uses the [KorGE](https://korge.soywiz.com/) - Modern Multiplatform Game
 Engine for Kotlin.
 
 You can find my older version based on the [LibGDX](https://libgdx.badlogicgames.com/)

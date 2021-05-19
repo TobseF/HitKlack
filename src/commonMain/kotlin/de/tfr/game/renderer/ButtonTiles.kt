@@ -8,15 +8,15 @@ import com.soywiz.korim.bitmap.BitmapSlice
 import com.soywiz.korim.bitmap.BmpSlice
 import com.soywiz.korim.format.readBitmap
 import com.soywiz.korio.file.std.resourcesVfs
-import de.tfr.game.lib.engine.Loadable
 
-class ButtonTiles : Loadable {
+
+class ButtonTiles {
 
     enum class Style { Green, Blue, Yellow, Red }
 
     lateinit var buttons: TileSet
 
-    override suspend fun create(container: Container) {
+    suspend fun init(container: Container) = apply {
         val texture = container.image(resourcesVfs["images/buttons.png"].readBitmap()) {
             visible = false
         }

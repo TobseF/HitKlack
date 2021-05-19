@@ -12,9 +12,5 @@ suspend fun main() = Korge(title = "HitKlack", width = resolution.width, height 
 
     Logger.defaultLevel = Logger.Level.WARN // <- Change this for debugging
 
-    val hitKlack = HitKlack(this).apply {
-        create(stage)
-    }
-    addComponent(hitKlack)
-
+    addComponent(HitKlack(this).initGame(stage))
 }

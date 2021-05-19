@@ -9,7 +9,6 @@ import com.soywiz.korge.view.Views
 import de.tfr.game.Controller.Control.*
 import de.tfr.game.lib.actor.Point
 import de.tfr.game.lib.actor.Point2D
-import de.tfr.game.lib.engine.Loadable
 import de.tfr.game.libgx.emu.Input
 import de.tfr.game.renderer.ButtonTiles
 import de.tfr.game.renderer.ButtonTiles.Style
@@ -17,11 +16,10 @@ import de.tfr.game.ui.Button
 
 
 class Controller(point: Point, private val gameRadius: Double, override val view: View) : KeyComponent,
-        Point by point,
-        Loadable {
+    Point by point {
 
-    override suspend fun create(container: Container) {
-        val tiles = ButtonTiles().apply { create(container) }
+    suspend fun init(container: Container) = apply {
+        val tiles = ButtonTiles().init(container)
         val shift = gameRadius + distance
         val center = Point2D(this)
         top = container.addButton(Button(Top, center.shiftTop(shift), tiles.get(Style.Green), view))

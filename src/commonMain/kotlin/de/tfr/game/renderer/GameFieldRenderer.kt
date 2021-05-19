@@ -7,7 +7,7 @@ import com.soywiz.korge.view.graphics
 import com.soywiz.korma.geom.vector.circle
 import com.soywiz.korma.geom.vector.rect
 import de.tfr.game.lib.actor.Point
-import de.tfr.game.lib.engine.Loadable
+
 import de.tfr.game.model.Block
 import de.tfr.game.model.GameField
 import de.tfr.game.model.Orientation
@@ -19,13 +19,13 @@ import de.tfr.game.util.extensions.drawFill
 import de.tfr.game.util.extensions.square
 
 
-class GameFieldRenderer(point: Point, private val field: GameField) : Point by point, Loadable {
+class GameFieldRenderer(point: Point, private val field: GameField) : Point by point {
 
     private val gap = 6
     private val blockWith = 18.0
     private val radius = 8.0
 
-    override suspend fun create(container: Container) {
+    fun init(container: Container) = apply {
         createBackground(container)
         createFieldCache(container)
     }
