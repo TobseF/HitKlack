@@ -11,20 +11,20 @@ import com.soywiz.korim.font.BitmapFont
 import com.soywiz.korim.font.readBitmapFont
 import com.soywiz.korio.file.std.resourcesVfs
 import de.tfr.game.Display
-import de.tfr.game.lib.engine.Loadable
+
 import de.tfr.game.ui.GRAY_DARK
 import de.tfr.game.ui.GREEN_LIGHT
 import de.tfr.game.ui.GREEN_LIGHT2
 import de.tfr.game.util.extensions.text
 
 
-class DisplayRenderer(private val display: Display) : Loadable {
+class DisplayRenderer(private val display: Display) {
 
     private val log = Logger<DisplayRenderer>()
     lateinit var font: BitmapFont
     var text: Text? = null
 
-    override suspend fun create(container: Container) {
+    suspend fun init(container: Container) = apply {
         font = resourcesVfs["fonts/segment7.fnt"].readBitmapFont()
 
         container.solidRect(display.width, display.height, GREEN_LIGHT) {

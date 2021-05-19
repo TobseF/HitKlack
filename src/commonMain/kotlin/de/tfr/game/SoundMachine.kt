@@ -2,42 +2,41 @@ package de.tfr.game
 
 import com.soywiz.korau.sound.Sound
 import com.soywiz.korau.sound.readSound
-import com.soywiz.korge.view.Container
+import com.soywiz.korge.view.Stage
+import com.soywiz.korio.async.launch
 import com.soywiz.korio.file.std.resourcesVfs
-import de.tfr.game.lib.engine.Loadable
 import disableSound
 
 
-class SoundMachine : Loadable {
+class SoundMachine(private val stage: Stage? = null) {
 
     private var circleOk: Sound? = null
     private var lineMissed: Sound? = null
     private var lineOk: Sound? = null
 
-    private suspend fun newSound(fileName: String) = resourcesVfs["sounds/$fileName"].readSound()
+    suspend fun init() = apply { loadSounds() }
 
-    override suspend fun create(container: Container) {
-        circleOk = newSound("circle_ok.mp3")
-        lineMissed = newSound("line_missed.mp3")
-        lineOk = newSound("line_ok.mp3")
+    private suspend fun readSound(fileName: String) = resourcesVfs["sounds/$fileName"].readSound()
+
+    private suspend fun loadSounds() {
+        circleOk = readSound("circle_ok.mp3")
+        lineMissed = readSound("line_missed.mp3")
+        lineOk = readSound("line_ok.mp3")
     }
 
-    fun playCircleOK() {
+    fun playCircleOK() = circleOk.play()
+
+    fun playLineMissed() = lineMissed.play()
+
+    fun playLineOK() = lineOk.play()
+
+    private fun Sound?.play() {
         if (!disableSound) {
-            circleOk?.play()
+            stage?.launch {
+                this?.play()
+            }
         }
     }
 
-    fun playLineMissed() {
-        if (!disableSound) {
-            lineMissed?.play()
-        }
-    }
-
-    fun playLineOK() {
-        if (!disableSound) {
-            lineOk?.play()
-        }
-    }
 
 }
