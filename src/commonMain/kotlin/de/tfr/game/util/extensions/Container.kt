@@ -8,9 +8,11 @@ import com.soywiz.korim.color.RGBA
 import com.soywiz.korim.font.Font
 import com.soywiz.korim.font.SystemFontRegistry
 
-inline fun Container.text(text: String,
+inline fun Container.text(
+        text: String,
         textSize: Double = 16.0,
-        font: Font = SystemFontRegistry.DEFAULT_FONT,
+        font: Font,
         color: RGBA = Colors.WHITE,
-        callback: Text.() -> Unit = {}) = Text(
+        callback: Text.() -> Unit = {}
+) = Text(
         text, textSize = textSize, font = font, color = color).addTo(this).apply(callback)

@@ -25,12 +25,14 @@ fun Graphics.drawFill(color: RGBA, renderAction: (Graphics) -> Any) {
     this.endFill()
 }
 
-fun Container.text(text: String,
-        x: Double,
-        y: Double,
-        font: Font = SystemFontRegistry.DEFAULT_FONT,
-        textSize: Double,
-        color: RGBA = Colors.WHITE): Text {
+fun Container.text(
+  text: String,
+  x: Double,
+  y: Double,
+  font: Font,
+  textSize: Double,
+  color: RGBA = Colors.WHITE
+): Text {
 
     return text(text, textSize, font = font, color = color) {
         position(x, y)
