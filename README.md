@@ -3,7 +3,7 @@
 [![KorGE](https://img.shields.io/badge/KorGE-2.1.1.1-836DAC.svg)](https://korge.soywiz.com/)
 [![BCH compliance](https://bettercodehub.com/edge/badge/TobseF/HitKlack?branch=master)](https://bettercodehub.com/)
 
-![Screenshot](https://tobsef.github.io/HitKlack/images/readme/screenshot_device.jpg)
+[![Screenshot](https://tobsef.github.io/HitKlack/images/hitklack_console_and_app.png)](https://tobsef.github.io/HitKlack/webstart/index.html)
 
 
 ### [🌍 Official Website](https://tobsef.github.io/HitKlack/)
@@ -18,9 +18,16 @@ Engine for Kotlin.
 You can find my older version based on the [LibGDX](https://libgdx.badlogicgames.com/)
 framework [here](https://github.com/TobseF/HitKlack_LibGDX).
 
-# Build & Run
+## 💿 Downloads
 
-To build and run you need at least **Gradle 5.5**:  
+📦 [Windows exe - One Klick Run](https://github.com/TobseF/HitKlack/releases/download/v0.2-alpha/HitKlack_v0.2-aplha_win.zip)  
+📦 [Java - Windows, Linux, Max](https://github.com/TobseF/HitKlack/releases/download/v0.2-alpha/HitKlack_v0.2-alpha_jvm.zip)  
+🌍 [Web App - Download](https://github.com/TobseF/HitKlack/releases/download/v0.2-alpha/HitKlack_v0.2-aplha_web.zip)  
+📱 [Android - apk](https://github.com/TobseF/HitKlack/releases/download/v0.2-alpha/HitKlack_v0.2-alpha.apk)
+
+## Build & Run
+
+To build and run you need at least **Gradle 5.5**:
 
 Check that Gradle is running with a `1.8 JVM`:   
 In IntelliJ _Settings/Build, Execution, Deployment > Build Tools/Gradle > **Gradle JVM**_
